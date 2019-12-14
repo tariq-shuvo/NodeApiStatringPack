@@ -57,7 +57,15 @@ const AdminSchema = new Schema({
             type: Date
         }
     },
-    date: {
+    active: {
+        type: Boolean,
+        default: true
+    },
+    create:{
+        type: Date,
+        default: Date.now
+    },
+    update:{
         type: Date,
         default: Date.now
     }
