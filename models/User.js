@@ -18,65 +18,6 @@ const UserSchema = new Schema({
     avatar: {
         type: String
     },
-    property:[
-        {
-            id:{
-                type: Schema.Types.ObjectId,
-                ref: 'properties'
-            },
-            payment:{
-                totalCost: {
-                    type: Number
-                },
-                totalPaid: {
-                    type: Number
-                },
-                installment:{
-                    amount:{
-                        type: Number
-                    },
-                    number:{
-                        type: Number
-                    }
-                },
-                nextDueDate: {
-                    type: Date,
-                    required: true
-                },
-                dueDateDuration:{
-                    type: Number
-                },
-                dueDateExtension:{
-                    type: Number
-                },
-                transactions:[
-                    {
-                        code:{
-                            type: String
-                        },
-                        method:{
-                            type: String
-                        },
-                        amount:{
-                            type: Number
-                        },
-                        date: {
-                            type: Date,
-                            default: Date.now
-                        }
-                    }
-                ],
-                date:{
-                    type: Date,
-                    default: Date.now
-                }
-            },
-            delivery:{
-                type: Date,
-                required: true
-            }
-        }
-    ],
     contact:{
         address:{
            type: String
@@ -99,8 +40,7 @@ const UserSchema = new Schema({
                 default: null
             },
             status: {
-                type: Boolean,
-                required: true
+                type: Boolean
             },
             date: {
                 type: Date,

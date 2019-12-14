@@ -98,6 +98,26 @@ const PropertySchema = new Schema({
         type: Boolean,
         default: true
     },
+    payment:{
+        installment:{
+            amount:{
+                type: Number
+            },
+            number:{
+                type: Number
+            }
+        },
+        nextDueDate: {
+            type: Date,
+            required: true
+        },
+        dueDateDuration:{
+            type: Number
+        },
+        dueDateExtension:{
+            type: Number
+        }
+    },
     create:{
         type: Date,
         default: Date.now
