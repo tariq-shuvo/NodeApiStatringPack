@@ -7,7 +7,8 @@ const AdminRoleSchema = new Schema({
         required: true
     },
     icon:{
-        type: String
+        type: String,
+        default: null
     },
     create:{
         type: Date,
@@ -15,7 +16,7 @@ const AdminRoleSchema = new Schema({
     },
     update:{
         type: Date,
-        default: Date.now
+        default: null
     }
 })
 

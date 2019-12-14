@@ -7,7 +7,7 @@ var logger = require('morgan');
 var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/api/user');
 var adminRouter = require('./routes/api/admin');
-// var cartRouter = require('./routes/api/cart');
+var roleRouter = require('./routes/api/admin/roles');
 // var orderRouter = require('./routes/api/order');
 // var branchRouter = require('./routes/api/branch');
 var locationRouter = require('./routes/api/location');
@@ -32,7 +32,7 @@ app.use('/', indexRouter);
 app.use('/api/location', [locationRouter.getLocation]);
 app.use('/api/user', [usersRouter.user, usersRouter.auth, usersRouter.verify, usersRouter.forgot, usersRouter.reset, usersRouter.contact, usersRouter.updatePhoto]);
 app.use('/api/admin', [adminRouter.admin, adminRouter.auth, adminRouter.verify, adminRouter.forgot, adminRouter.reset]);
-// app.use('/api/cart', [cartRouter.add, cartRouter.update, cartRouter.remove, cartRouter.get]);
+app.use('/api/role', [roleRouter.addRole, roleRouter.getRole, roleRouter.updateRole, roleRouter.removeRole]);
 // app.use('/api/order', [orderRouter.placeOrder, orderRouter.updateOrder, orderRouter.removeOrder]);
 // app.use('/api/branch', [branchRouter.addBranch, branchRouter.removeBranch, branchRouter.updateBranch, branchRouter.getBranch]);
 
