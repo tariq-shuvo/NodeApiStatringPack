@@ -25,10 +25,8 @@ const AdminSchema = new Schema({
     },
     roles: [
         {
-            id: {
-                type: Schema.Types.ObjectId,
-                ref: 'role'
-            }
+            type: Schema.Types.ObjectId,
+            ref: 'role'
         }
     ],
     verify:{

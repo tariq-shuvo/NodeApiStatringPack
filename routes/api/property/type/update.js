@@ -7,16 +7,16 @@ const {
 } = require('express-validator');
 
 const auth = require('../../../../middleware/admin/auth');
-const Role = require('../../../../models/admin/Role');
+const PropertyType = require('../../../../models/property/PropertyType');
 
 const { getAdminRoleChecking } = require('../../../../lib/helpers');
-// @route PUT api/role
-// @description Update Role
-// @access Private
+// @route PUT api/property/type
+// @description Update Property Type
+// @access Private - admin access
 router.put('/', [auth,
     [
-        check('role', 'Role id required').not().isEmpty(),
-        check('name', 'Role name required').not().isEmpty()
+        check('type', 'Type id required').not().isEmpty(),
+        check('name', 'Property type is required').not().isEmpty()
     ]
 ], async (req, res) => {
     const error = validationResult(req)
@@ -27,38 +27,38 @@ router.put('/', [auth,
         })
     }
 
-    const adminRoles = await getAdminRoleChecking(req.admin.id, 'role')
+    const adminRoles = await getAdminRoleChecking(req.admin.id, 'property')
 
     if (!adminRoles) {
         return res.status(400).send({
             errors: [
                 {
-                    msg: 'Account is not authorized to modify role'
+                    msg: 'Account is not authorized for property type'
                 }
             ]
         })
     }
 
     try {
-        let icon = null
+        let image = null
 
-        if (req.body.icon) {
-            icon = req.body.icon
+        if (req.body.image) {
+            image = req.body.image
         }
 
         const { name } = req.body
 
-        let role = await Role.findById(req.body.role)
+        let propertyType = await PropertyType.findById(req.body.type)
 
-        role.name = name
-        role.icon = icon
-        role.update = Date.now()
+        propertyType.name = name
+        propertyType.image = image
+        propertyType.update = Date.now()
 
-        await role.save()
+        await propertyType.save()
         res.status(200).json({
             type: 'success',
-            msg: 'Role information updated successfully',
-            data: role
+            msg: 'Property type updated successfully',
+            data: propertyType
         });
     } catch (err) {
         console.error(err);

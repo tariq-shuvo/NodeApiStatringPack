@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 const {check, validationResult} = require('express-validator')
 // Load User Model
-const User = require('../../../models/User')
+const User = require('../../../models/user/User');
 // Load gravater
 const gravater = require('gravatar')
 // Load bcrypt
@@ -13,6 +13,8 @@ const jwt = require('jsonwebtoken')
 const config = require('config')
 // Load uuid 
 const uuidv1 = require('uuid')
+
+const { getAdminRoleChecking } = require('../../../lib/helpers');
 
 // @route POST api/users
 // @description User Registration
@@ -35,6 +37,18 @@ router.post(
       return res.status(400).json({
         errors: error.array()
       })
+    }
+
+    const adminRoles = await getAdminRoleChecking(req.admin.id, 'user')
+
+    if (!adminRoles) {
+        return res.status(400).send({
+            errors: [
+                {
+                    msg: 'Account is not authorized to create user'
+                }
+            ]
+        })
     }
 
     const {name, email, password} = req.body

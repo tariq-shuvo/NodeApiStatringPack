@@ -5,7 +5,7 @@ const {check, validationResult} = require('express-validator')
 // Load bcrypt
 const bcrypt = require('bcryptjs')
 // Load User Model
-const User = require('../../../../models/User')
+const User = require('../../../../models/user/User');
 
 // @route GET api/auth/user/password/reset/:id
 // @description Get Password Reset Form

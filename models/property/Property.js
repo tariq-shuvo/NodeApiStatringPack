@@ -33,14 +33,10 @@ const PropertySchema = new Schema({
     summery: {
         type: String
     },
-    agents:[
-        {
-            id:{
-                type: Schema.Types.ObjectId,
-                ref: 'admins'
-            }
-        }
-    ],
+    agents: {
+        type: [Schema.Types.ObjectId],
+        ref: 'admins'
+    },
     price:{
         type: Number,
         required: true
@@ -48,6 +44,10 @@ const PropertySchema = new Schema({
     priceUnit:{
         type: String,
         required: true
+    },
+    discount:{
+        type: Number,
+        default: 0
     },
     negotiable: {
         type: Boolean,
@@ -66,17 +66,9 @@ const PropertySchema = new Schema({
         division:{
            type: String
         },
-        phone:[
-            {
-                number:{
-                    type: String
-                },
-                date: {
-                    type: Date,
-                    default: Date.now
-                }
-            }
-        ]
+        phone:{
+            type: [String]
+        }
     },
     totalArea:{
       type: Number,
@@ -107,10 +99,6 @@ const PropertySchema = new Schema({
                 type: Number
             }
         },
-        nextDueDate: {
-            type: Date,
-            required: true
-        },
         dueDateDuration:{
             type: Number
         },
@@ -124,7 +112,7 @@ const PropertySchema = new Schema({
     },
     update:{
         type: Date,
-        default: Date.now
+        default: null
     }
 
 })

@@ -6,18 +6,10 @@ const PropertyTypeSchema = new Schema({
         type: String,
         required: true
     },
-    image: [
-        {
-            path:{
-                type: String,
-                required: true
-            },
-            active: {
-                type: Boolean,
-                default: false
-            }
-        }
-    ],
+    image: {
+        type: String,
+        default: null
+    },
     create:{
         type: Date,
         default: Date.now

@@ -9,7 +9,7 @@ const {
 const {generateRandomNumber} = require('../../../lib/helpers');
 
 const auth = require('../../../middleware/user/auth');
-const User = require('../../../models/User');
+const User = require('../../../models/user/User');
 
 // @route POST api/user/contact
 // @description Add User Contact

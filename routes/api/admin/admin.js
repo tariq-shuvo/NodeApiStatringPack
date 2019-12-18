@@ -12,20 +12,25 @@ const config = require('config')
 // Load uuid 
 const uuidv1 = require('uuid')
 
+const auth = require('../../../middleware/admin/auth');
+
+const { getAdminRoleChecking } = require('../../../lib/helpers');
+
 // @route POST api/admin
 // @description Admin Registration
 // @access Public
 router.post(
-  '/',
+  '/',[auth,
   [
     check('name', 'Name should not be empty.')
       .not()
       .isEmpty(),
     check('email', 'Email should be in email format.').isEmail(),
+    check('roles', 'Role should not be empty.').not().isEmpty(),
     check('password', 'Password should be 6 or more characters.').isLength({
       min: 6
     })
-  ],
+  ]],
   async (req, res) => {
     const error = validationResult(req)
 
@@ -34,6 +39,20 @@ router.post(
         errors: error.array()
       })
     }
+
+    const adminRoles = await getAdminRoleChecking(req.admin.id, 'admin')
+
+    if (!adminRoles) {
+        return res.status(400).send({
+            errors: [
+                {
+                    msg: 'Account is not authorized to create admin'
+                }
+            ]
+        })
+    }
+
+    let roles = req.body.roles.split(',').map(role => role.trim())
 
     const {name, email, password} = req.body
 
@@ -72,6 +91,7 @@ router.post(
         avatar,
         password,
         superAdmin,
+        roles,
         "verify.code": verify
       })
 

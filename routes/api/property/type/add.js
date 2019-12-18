@@ -7,16 +7,15 @@ const {
 } = require('express-validator');
 
 const auth = require('../../../../middleware/admin/auth');
-const Role = require('../../../../models/admin/Role');
+const PropertyType = require('../../../../models/property/PropertyType');
 
 const { getAdminRoleChecking } = require('../../../../lib/helpers');
-
-// @route POST api/role
-// @description Add New Role
-// @access Private
-router.post('/', [auth,
+// @route POST api/proverty/type
+// @description Add Property Type
+// @access Private - admin access
+router.post('/', [auth, 
     [
-        check('name', 'Role name required').not().isEmpty()
+        check('name', 'Property type is required').not().isEmpty()
     ]
 ], async (req, res) => {
     try {
@@ -28,37 +27,37 @@ router.post('/', [auth,
             })
         }
 
-        const adminRoles = await getAdminRoleChecking(req.admin.id, 'role')
+        const adminRoles = await getAdminRoleChecking(req.admin.id, 'property')
 
         if (!adminRoles) {
             return res.status(400).send({
                 errors: [
                     {
-                        msg: 'Account is not authorized to modify role'
+                        msg: 'Account is not authorized for property type'
                     }
                 ]
             })
         }
 
-        let icon = null
-
-        if (req.body.icon) {
-            icon = req.body.icon
+        let image = null
+ 
+        if(req.body.icon){
+            image = req.body.image
         }
 
-        const { name } = req.body
+        const {name} = req.body
 
-        const addRoleInfo = new Role({
+        const PropertyTypeInfo = new PropertyType({
             name,
-            icon
+            image
         })
 
-        await addRoleInfo.save()
+        await PropertyTypeInfo.save()
 
         res.status(200).json({
             type: 'success',
-            msg: 'New role added successfully',
-            data: addRoleInfo
+            msg: 'New property type successfully',
+            data: PropertyTypeInfo
         })
     } catch (err) {
         console.error(err);

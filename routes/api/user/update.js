@@ -7,7 +7,7 @@ const {upload, removeNotvalidateFile} = require('../../../lib/helpers')
 const auth = require('../../../middleware/user/auth')
 
 // Load User model
-const User = require('../../../models/User')
+const User = require('../../../models/user/User');
 
 
 

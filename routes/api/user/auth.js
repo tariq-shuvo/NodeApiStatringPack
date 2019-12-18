@@ -14,7 +14,7 @@ const jwt = require('jsonwebtoken');
 const config = require('config');
 
 const auth = require('../../../middleware/user/auth');
-const User = require('../../../models/User');
+const User = require('../../../models/user/User');
 
 // @route GET api/auth
 // @description User Route
