@@ -13,10 +13,15 @@ var propertyRouter = require('./routes/api/property');
 var propertyType = require('./routes/api/property/type');
 var locationRouter = require('./routes/api/location');
 var propertyProgressRouter = require('./routes/api/property/progress');
+var propertySellRouter = require('./routes/api/property/sell');
 
 // Load Website Routes 
 var authSiteRouter = require('./routes/website/auth');
 var dashboardRouter = require('./routes/website/dashboard');
+var propertyAdminRouter = require('./routes/website/property');
+var propertySellAdminRouter = require('./routes/website/sell');
+var propertyPaymentAdminRouter = require('./routes/website/payment');
+var userAdminRouter = require('./routes/website/user');
 
 var app = express();
 
@@ -43,10 +48,15 @@ app.use('/api/role', [roleRouter.addRole, roleRouter.getRole, roleRouter.updateR
 app.use('/api/property', [propertyRouter.addProperty, propertyRouter.getProperty, propertyRouter.updateProperty]);
 app.use('/api/property/type', [propertyType.addPropertyType, propertyType.removePropertyType, propertyType.updatePropertyType, propertyType.getPropertyType]);
 app.use('/api/property/progress', [propertyProgressRouter.addPropertyProgress, propertyProgressRouter.removePropertyProgress, propertyProgressRouter.updatePropertyProgress, propertyProgressRouter.getPropertyProgress]);
+app.use('/api/property/sell', [propertySellRouter.addSellProperty, propertySellRouter.removeSellProperty, propertySellRouter.updateSellProperty, propertySellRouter.getSellProperty]);
 
 // Website Routes
 app.use('/', [authSiteRouter.loginAuth, authSiteRouter.registerAuth, authSiteRouter.forgotAuth, authSiteRouter.resetAuth])
-app.use('/', [dashboardRouter.homeRoute])
+app.use('/dashboard', [dashboardRouter.homeRoute])
+app.use('/dashboard/property', [propertyAdminRouter.addPropertyRoute, propertyAdminRouter.propertyListRoute])
+app.use('/dashboard/property/sell', [propertySellAdminRouter.addPropertySellRoute, propertySellAdminRouter.propertySellListRoute])
+app.use('/dashboard/property/payment', [propertyPaymentAdminRouter.addPropertyPaymentRoute, propertyPaymentAdminRouter.propertyPaymentListRoute])
+app.use('/dashboard/user', [userAdminRouter.addPropertyPaymentRoute, userAdminRouter.propertyPaymentListRoute])
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

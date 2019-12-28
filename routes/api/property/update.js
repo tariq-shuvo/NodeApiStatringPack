@@ -71,16 +71,16 @@ router.put('/', [auth,
         propertyInfo.contact.city = req.body.contact.city
         propertyInfo.contact.division = req.body.contact.division
         propertyInfo.totalArea = req.body.total_area,
-            propertyInfo.areaUnit = req.body.area_unit,
-            propertyInfo.level = req.body.level,
-            propertyInfo.availability = req.body.availability,
-            propertyInfo.active = req.body.active,
-            propertyInfo.payment.installment.amount = req.body.installment_amount,
-            propertyInfo.payment.installment.number = req.body.total_installment_number,
-            propertyInfo.payment.dueDateDuration = req.body.payment_due_duration,
-            propertyInfo.payment.dueDateExtension = req.body.payment_due_date_extension,
+        propertyInfo.areaUnit = req.body.area_unit,
+        propertyInfo.level = req.body.level,
+        propertyInfo.availability = req.body.availability,
+        propertyInfo.active = req.body.active,
+        propertyInfo.payment.installment.amount = req.body.installment_amount,
+        propertyInfo.payment.installment.number = req.body.total_installment_number,
+        propertyInfo.payment.dueDateDuration = req.body.payment_due_duration,
+        propertyInfo.payment.dueDateExtension = req.body.payment_due_date_extension,
 
-            propertyInfo.agents = req.body.agents != null ? req.body.agents.split(',').map(agent => agent.trim()) : []
+        propertyInfo.agents = req.body.agents != null ? req.body.agents.split(',').map(agent => agent.trim()) : []
         propertyInfo.contact.phone = req.body.contact.phone != null ? req.body.contact.phone.split(',').map(phone => phone.trim()) : []
         propertyInfo.update = Date.now()
 

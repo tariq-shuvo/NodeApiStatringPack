@@ -4,18 +4,19 @@ const Schema = mongoose.Schema
 const UserPropertySchema = new Schema({
     user:{
         type: Schema.Types.ObjectId,
-        ref: 'users'
+        ref: 'user'
     },
     property:{
         type: Schema.Types.ObjectId,
-        ref: 'properties'
+        ref: 'property'
     },
     payment:{
         totalCost: {
             type: Number
         },
         totalPaid: {
-            type: Number
+            type: Number,
+            default: 0
         },
         installment:{
             amount:{
@@ -60,6 +61,14 @@ const UserPropertySchema = new Schema({
     delivery:{
         type: Date,
         required: true
+    },
+    create: {
+        type: Date,
+        default: Date.now
+    },
+    update:{
+        type: Date,
+        default: Date.now
     }
 })
 

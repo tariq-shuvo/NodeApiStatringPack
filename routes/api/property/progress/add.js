@@ -7,7 +7,7 @@ const {
 } = require('express-validator');
 
 const auth = require('../../../../middleware/admin/auth');
-const Progress = require('../../../../models/property/Progress');
+const Progress = require('../../../../models/user/UserProperty');
 
 const { getAdminRoleChecking } = require('../../../../lib/helpers');
 // @route POST api/property/progress

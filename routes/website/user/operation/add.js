@@ -3,7 +3,7 @@ var router = express.Router();
 var config = require('config')
 
 /* GET login page. */
-router.get('/', function(req, res, next) {
+router.get('/add', function(req, res, next) {
   const scripts = [
     '/assets/bundles/libscripts.bundle.js',
     '/assets/bundles/vendorscripts.bundle.js',
@@ -21,7 +21,7 @@ router.get('/', function(req, res, next) {
     '/assets/css/color_skins.css',
   ]
 
-  res.render('pages/dashboard/home', {
+  res.render('pages/user/add', {
     scripts: scripts,
     styles: styles,
     host: config.get('hostname')
