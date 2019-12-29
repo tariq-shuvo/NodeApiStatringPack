@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
-const PropertyTypeSchema = new Schema({
+const ProjectTypeSchema = new Schema({
     name:{
         type: String,
         required: true
@@ -20,4 +20,4 @@ const PropertyTypeSchema = new Schema({
     }
 })
 
-module.exports = PropertyType = mongoose.model('propertytype', PropertyTypeSchema)
+module.exports = ProjectType = mongoose.model('projecttype', ProjectTypeSchema)

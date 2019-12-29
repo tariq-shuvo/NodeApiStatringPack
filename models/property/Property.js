@@ -2,56 +2,31 @@ const mongoose = require('mongoose')
 const Schema = mongoose.Schema
 
 const PropertySchema = new Schema({
-    code:{
-        type: Number,
-        required: true
-    },
     name:{
         type: String,
         required: true
     },
-    propertyType:{
+    project: {
         type: Schema.Types.ObjectId,
-        ref: 'propertytype'
+        ref: 'project'
     },
-    images:[
-        {
-            path: {
-                type: String,
-                required: true
-            },
-            active:{
-                type: Boolean,
-                default: false
-            }
-        }
-    ],
+    projectType: {
+        type: Schema.Types.ObjectId,
+        ref: 'projecttype'
+    },
+    agents: {
+        type: [Schema.Types.ObjectId],
+        ref: 'admin'
+    },
+    images: {
+        type: [String]
+    },
     details: {
         type: String,
         required: true
     },
     summery: {
         type: String
-    },
-    agents: {
-        type: [Schema.Types.ObjectId],
-        ref: 'admins'
-    },
-    price:{
-        type: Number,
-        required: true
-    },
-    priceUnit:{
-        type: String,
-        required: true
-    },
-    discount:{
-        type: Number,
-        default: 0
-    },
-    negotiable: {
-        type: Boolean,
-        default: false
     },
     contact:{
         address:{
@@ -70,41 +45,17 @@ const PropertySchema = new Schema({
             type: [String]
         }
     },
-    totalArea:{
-      type: Number,
-      required: true  
-    },
-    areaUnit:{
-        type: String,
-        required: true
-    },
-    level: {
-        type: Number,
-        default: null
-    },
-    availability:{
-        type: Boolean,
-        default: true
+    parking: {
+        available: {
+            type: Number
+        },
+        taken: {
+            type: Number
+        }
     },
     active:{
         type: Boolean,
         default: true
-    },
-    payment:{
-        installment:{
-            amount:{
-                type: Number
-            },
-            number:{
-                type: Number
-            }
-        },
-        dueDateDuration:{
-            type: Number
-        },
-        dueDateExtension:{
-            type: Number
-        }
     },
     create:{
         type: Date,

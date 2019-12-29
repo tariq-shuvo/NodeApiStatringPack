@@ -6,27 +6,20 @@ const {
     validationResult
 } = require('express-validator');
 
-const auth = require('../../../middleware/admin/auth');
-const Property = require('../../../models/property/Property');
+const auth = require('../../../../middleware/admin/auth');
+const Project = require('../../../../models/property/Project');
 
+const { upload, removeNotvalidateFile, removeUploadedFile, getAdminRoleChecking } = require('../../../../lib/helpers');
 
-const { upload, removeNotvalidateFile, removeUploadedFile, getAdminRoleChecking } = require('../../../lib/helpers');
-// @route PUT api/property
-// @description Update property
-// @access Private
+// @route PUT api/project
+// @description Update project
+// @access Private - admin access
+// @params project, type, name(required) details, summery(optional)
 router.put('/', [auth,
     [
-        check('property_id', 'Properrty id is required').not().isEmpty(),
-        check('project', 'project id is required').not().isEmpty(),
-        check('project_type', 'project type id is required').not().isEmpty(),
-        check('agents', 'Agent is required').not().isEmpty(),
-        check('name', 'Properrty name is required').not().isEmpty(),
-        check('details', 'Property details is required').not().isEmpty(),
-        check('address', 'Address is required').not().isEmpty(),
-        check('location', 'Location is required').not().isEmpty(),
-        check('city', 'City is required').not().isEmpty(),
-        check('division', 'Division is required').not().isEmpty(),
-        check('parking_no', 'Parking number required').not().isEmpty()
+        check('project', 'Project is required').not().isEmpty(),
+        check('type', 'Type is required').not().isEmpty(),
+        check('name', 'Name is required').not().isEmpty()
     ]
 ], async (req, res) => {
     const error = validationResult(req)
@@ -43,37 +36,28 @@ router.put('/', [auth,
         return res.status(400).send({
             errors: [
                 {
-                    msg: 'Account is not authorized to update property'
+                    msg: 'Account is not authorized for property'
                 }
             ]
         })
     }
 
-    // return res.json(req.body)
-
     try {
-        let propertyInfo = await Property.findById(req.body.property_id)
+        const {type, name, details, summery} = req.body
 
-        propertyInfo.project = req.body.project
-        propertyInfo.projectType = req.body.project_type
-        propertyInfo.name = req.body.name
-        propertyInfo.details = req.body.details
-        propertyInfo.summery = req.body.summery
-        propertyInfo.contact.address = req.body.address
-        propertyInfo.contact.location = req.body.location
-        propertyInfo.contact.city = req.body.city
-        propertyInfo.contact.division = req.body.division
-        propertyInfo.parking.available = req.body.parking_no
-        
-        propertyInfo.agents = req.body.agents != null ? req.body.agents.split(',').map(agent => agent.trim()) : []
-        propertyInfo.contact.phone = req.body.phone != null ? req.body.phone.split(',').map(phone => phone.trim()) : []
-        propertyInfo.update = Date.now()
+        let ProjectInfo = await Project.findById(req.body.project)
+        ProjectInfo.type = type.split(',').map(type => type.trim())
+        ProjectInfo.name = name
+        if(details) ProjectInfo.details = details
+        if(summery) ProjectInfo.summery = summery
+        ProjectInfo.update = Date.now()
 
-        await propertyInfo.save()
+        await ProjectInfo.save()
+
         res.status(200).json({
             type: 'success',
-            msg: 'Product information updated successfully',
-            data: propertyInfo
+            msg: 'Project information updated successfully',
+            data: ProjectInfo
         });
     } catch (err) {
         console.error(err);
@@ -81,11 +65,10 @@ router.put('/', [auth,
     }
 });
 
-
-// @route PUT api/property/:projectID/image/upload
+// @route PUT api/project/:projectID/image/upload
 // @description upload project image
 // @access Private - admin access
-router.put('/:propertyID/image/upload', [auth, upload.single('file')], async (req, res) => {
+router.put('/:projectID/image/upload', [auth, upload.single('file')], async (req, res) => {
     const adminRoles = await getAdminRoleChecking(req.admin.id, 'property')
 
     if (!adminRoles) {
@@ -105,10 +88,10 @@ router.put('/:propertyID/image/upload', [auth, upload.single('file')], async (re
       if (filesize < 1) {
         try {
           let path = uploadedFileDetails.path.replace('public\\', './')
-          let property = await Property.findById(req.params.propertyID)
-          property.images.push(path.replace(/\\/g, "/"))
-          await property.save()
-          return res.status(200).json(property)
+          let project = await Project.findById(req.params.projectID)
+          project.images.push(path.replace(/\\/g, "/"))
+          await project.save()
+          return res.status(200).json(project)
         } catch (error) {
           console.error(error.message)
           return res.status(500).send('Server error')
@@ -124,10 +107,10 @@ router.put('/:propertyID/image/upload', [auth, upload.single('file')], async (re
   })
 
 
-// @route PUT api/property/:projectID/image/remove
+// @route PUT api/project/:projectID/image/remove
 // @description remove project image
 // @access Private - admin access
-router.put('/:propertyID/image/remove', [auth, 
+router.put('/:projectID/image/remove', [auth, 
     [
         check('image_index', 'Image index is required').not().isEmpty(),
     ]
@@ -155,9 +138,9 @@ router.put('/:propertyID/image/remove', [auth,
     const {image_index} = req.body
 
     try {
-        let property = await Property.findById(req.params.propertyID)
+        let project = await Project.findById(req.params.projectID)
 
-        if(property.images.length <= image_index){
+        if(project.images.length <= image_index){
             return res.status(400).send({
                 errors: [
                     {
@@ -167,14 +150,14 @@ router.put('/:propertyID/image/remove', [auth,
             }) 
         }
 
-        let path = property.images[image_index].replace('./', 'public\\').replace(/\\/g, "/")
+        let path = project.images[image_index].replace('./', 'public\\').replace(/\\/g, "/")
 
-        property.images = property.images.filter((value, index) => index !== image_index)
-        await property.save()
+        project.images = project.images.filter((value, index) => index !== image_index)
+        await project.save()
         
         const successInfo ={
             msg: 'Project image removed successfully',
-            data: property
+            data: project
         }
 
         removeUploadedFile(res, path, successInfo)

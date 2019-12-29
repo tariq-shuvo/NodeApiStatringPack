@@ -9,11 +9,14 @@ var indexRouter = require('./routes/index');
 var usersRouter = require('./routes/api/user');
 var adminRouter = require('./routes/api/admin');
 var roleRouter = require('./routes/api/admin/roles');
-var propertyRouter = require('./routes/api/property');
+var projectRouter = require('./routes/api/property/project');
+var propertyRouter = require('./routes/api/property'); 
+var propertyDivisionRouter = require('./routes/api/property/division'); 
 var propertyType = require('./routes/api/property/type');
 var locationRouter = require('./routes/api/location');
-var propertyProgressRouter = require('./routes/api/property/progress');
-var propertySellRouter = require('./routes/api/property/sell');
+// var propertyProgressRouter = require('./routes/api/property/progress');
+// var propertySellRouter = require('./routes/api/property/sell');
+var projectTypeRouter = require('./routes/api/property/projectType');
 
 // Load Website Routes 
 var authSiteRouter = require('./routes/website/auth');
@@ -35,7 +38,7 @@ app.set('view engine', 'ejs');
 
 app.use(logger('dev'));
 app.use(express.json());
-app.use(express.urlencoded({ extended: false }));
+app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -46,9 +49,12 @@ app.use('/api/user', [usersRouter.user, usersRouter.auth, usersRouter.verify, us
 app.use('/api/admin', [adminRouter.admin, adminRouter.auth, adminRouter.verify, adminRouter.forgot, adminRouter.reset]);
 app.use('/api/role', [roleRouter.addRole, roleRouter.getRole, roleRouter.updateRole, roleRouter.removeRole]);
 app.use('/api/property', [propertyRouter.addProperty, propertyRouter.getProperty, propertyRouter.updateProperty]);
+app.use('/api/property/division', [propertyDivisionRouter.addPropertyDivision, propertyDivisionRouter.getPropertyDivision, propertyDivisionRouter.updatePropertyDivision]);
 app.use('/api/property/type', [propertyType.addPropertyType, propertyType.removePropertyType, propertyType.updatePropertyType, propertyType.getPropertyType]);
-app.use('/api/property/progress', [propertyProgressRouter.addPropertyProgress, propertyProgressRouter.removePropertyProgress, propertyProgressRouter.updatePropertyProgress, propertyProgressRouter.getPropertyProgress]);
-app.use('/api/property/sell', [propertySellRouter.addSellProperty, propertySellRouter.removeSellProperty, propertySellRouter.updateSellProperty, propertySellRouter.getSellProperty]);
+// app.use('/api/property/progress', [propertyProgressRouter.addPropertyProgress, propertyProgressRouter.removePropertyProgress, propertyProgressRouter.updatePropertyProgress, propertyProgressRouter.getPropertyProgress]);
+// app.use('/api/property/sell', [propertySellRouter.addSellProperty, propertySellRouter.removeSellProperty, propertySellRouter.updateSellProperty, propertySellRouter.getSellProperty]);
+app.use('/api/project', [projectRouter.addProject, projectRouter.updateProject, projectRouter.getProject]);
+app.use('/api/project/type', [projectTypeRouter.addProjectType, projectTypeRouter.updateProjectType, projectTypeRouter.getProjectType]);
 
 // Website Routes
 app.use('/', [authSiteRouter.loginAuth, authSiteRouter.registerAuth, authSiteRouter.forgotAuth, authSiteRouter.resetAuth])
