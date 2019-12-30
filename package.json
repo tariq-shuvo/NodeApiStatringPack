@@ -28,5 +28,6 @@
     "nodemon": "^2.0.1",
     "request": "^2.88.0",
     "uuid": "^3.3.3"
-  }
+  },
+  "proxy":"http://localhost:3000"
 }

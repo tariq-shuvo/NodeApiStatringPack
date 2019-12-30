@@ -3,6 +3,7 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+var config = require('config')
 
 // Load Api Routes 
 var indexRouter = require('./routes/index');
@@ -63,6 +64,27 @@ app.use('/dashboard/property', [propertyAdminRouter.addPropertyRoute, propertyAd
 app.use('/dashboard/property/sell', [propertySellAdminRouter.addPropertySellRoute, propertySellAdminRouter.propertySellListRoute])
 app.use('/dashboard/property/payment', [propertyPaymentAdminRouter.addPropertyPaymentRoute, propertyPaymentAdminRouter.propertyPaymentListRoute])
 app.use('/dashboard/user', [userAdminRouter.addPropertyPaymentRoute, userAdminRouter.propertyPaymentListRoute])
+
+
+app.use(function(req, res, next){
+  res.status(404);
+  const scripts = [
+    '/assets/bundles/libscripts.bundle.js',
+    '/assets/bundles/vendorscripts.bundle.js',
+    '/assets/js/auth/common.js',
+  ]
+  const styles = [
+    '/assets/css/main.css',
+    '/assets/css/authentication.css',
+    '/assets/css/color_skins.css',
+  ]
+
+  res.render('pages/auth/error/404', {
+    scripts: scripts,
+    styles: styles,
+    host: config.get('hostname')
+  });
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {

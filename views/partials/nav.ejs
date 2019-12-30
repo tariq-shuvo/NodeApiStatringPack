@@ -1,5 +1,5 @@
 <!-- Top Bar -->
-<nav class="navbar p-l-5 p-r-5">
+<nav class="navbar p-l-5 p-r-5" id="top_navigation">
     <ul class="nav navbar-nav navbar-left">
         <li>
             <div class="navbar-header">
@@ -20,7 +20,7 @@
                         <li>
                             <a href="javascript:void(0);">
                                 <div class="media">
-                                    <img class="media-object w60" src="../assets/images/image-gallery/1.jpg" alt="">
+                                    <img class="media-object w60" src="<%= host %>/assets/images/image-gallery/1.jpg" alt="">
                                     <div class="media-body">
                                         <span class="name">Sophia <span class="time">For Sale</span></span>
                                         <span class="message">Relaxing Apartment</span>                                        
@@ -31,7 +31,7 @@
                         <li>
                             <a href="javascript:void(0);">
                                 <div class="media">
-                                    <img class="media-object w60" src="../assets/images/image-gallery/2.jpg" alt="">
+                                    <img class="media-object w60" src="<%= host %>/assets/images/image-gallery/2.jpg" alt="">
                                     <div class="media-body">
                                         <span class="name">Sophia <span class="time">For Rent</span></span>
                                         <span class="message">Co-op Apartment in Bay Terrace</span>                                        
@@ -42,7 +42,7 @@
                         <li>
                             <a href="javascript:void(0);">
                                 <div class="media">
-                                    <img class="media-object w60" src="../assets/images/image-gallery/3.jpg" alt="">
+                                    <img class="media-object w60" src="<%= host %>/assets/images/image-gallery/3.jpg" alt="">
                                     <div class="media-body">
                                         <span class="name">Isabella <span class="time">For Rent</span></span>
                                         <span class="message">A must see Villa on Chicago Ave</span>                                        
@@ -53,7 +53,7 @@
                         <li>
                             <a href="javascript:void(0);">
                                 <div class="media">
-                                    <img class="media-object w60" src="../assets/images/image-gallery/4.jpg" alt="">
+                                    <img class="media-object w60" src="<%= host %>/assets/images/image-gallery/4.jpg" alt="">
                                     <div class="media-body">
                                         <span class="name">Alexander <span class="time">For Sale</span></span>
                                         <span class="message">5 Room Apartment Special Deal</span>                                        
@@ -64,7 +64,7 @@
                         <li>
                             <a href="javascript:void(0);">
                                 <div class="media">
-                                    <img class="media-object w60" src="../assets/images/image-gallery/5.jpg" alt="">
+                                    <img class="media-object w60" src="<%= host %>/assets/images/image-gallery/5.jpg" alt="">
                                     <div class="media-body">
                                         <span class="name">Grayson <span class="time">For Rent</span></span>
                                         <span class="message">Real House Luxury Villa</span>                                        
@@ -84,7 +84,19 @@
             </div>
         </li>        
         <li class="float-right">
-            <a href="sign-in.html" class="mega-menu" data-close="true"><i class="zmdi zmdi-power"></i></a>
+            <a href="javascript:void(0);" @click="logoutAuth" class="mega-menu" data-close="true"><i class="zmdi zmdi-power"></i></a>
         </li>
     </ul>
 </nav>
+
+<script>
+    new Vue({
+        el: '#top_navigation',
+        methods:{
+            logoutAuth(){
+                localStorage.clear()
+                window.location = '/login'
+            }
+        }
+    })
+</script>

@@ -17,10 +17,13 @@
        <link rel="stylesheet" href="<%= host+styleLink %>">
     <% }); %>
 <% } %>
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+<script src="<%= host %>/javascript/auth.js"></script>
 </head>
 <body class="theme-purple">
 <!-- Page Loader -->
-<div class="page-loader-wrapper">
+<div class="page-loader-wrapper" id="page_loader">
     <div class="loader">
         <div class="m-t-30"><img class="zmdi-hc-spin" src="https://thememakker.com/templates/oreo/realestate/html/assets/images/logo.svg" width="48" height="48" alt="Oreo"></div>
         <p>Please wait...</p>        
@@ -29,3 +32,25 @@
 
 <!-- Overlay For Sidebars -->
 <div class="overlay"></div>
+
+<script>
+    new Vue({
+        el: '#page_loader',
+        data:{
+            errorResponse: null,
+            token: null
+        },
+        mounted(){
+            if (localStorage.token) {
+                this.token = localStorage.token
+                authChecker(this.token).then((result) => {
+                    if(result.auth===false){
+                        window.location = '/login'
+                    }
+                })
+            }else{
+                window.location = '/login'
+            }
+        }
+    })
+</script>   

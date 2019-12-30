@@ -21,7 +21,7 @@ const Admin = require('../../../models/admin/Admin');
 // @access Private
 router.get('/', auth, async (req, res) => {
     try {
-        const admin = await Admin.findById(req.admin.id).select('-password').select('-forgot');
+        const admin = await Admin.findById(req.admin.id).populate('roles',['name']).select('-password').select('-forgot');
         res.status(200).json(admin);
     } catch (err) {
         console.error(err);
@@ -64,7 +64,7 @@ router.post(
                 return res
                     .status(400)
                     .send({
-                        error: [{
+                        errors: [{
                             msg: 'Invalid credentials'
                         }]
                     });
@@ -76,7 +76,7 @@ router.post(
                 return res
                     .status(400)
                     .send({
-                        error: [{
+                        errors: [{
                             msg: 'Invalid credentials'
                         }]
                     });

@@ -19,7 +19,11 @@ router.get('/reset/:id', async (req, res)=>{
 
         if(!admin){
             return res.status(404).json({
-                msg: 'Invalid password reset link'
+                errors: [
+                    {
+                        msg: 'Invalid password reset link'
+                    }
+                ]
             });
         }
 
@@ -36,6 +40,9 @@ router.get('/reset/:id', async (req, res)=>{
 // @description Reset new paasword
 // @access Public
 router.post('/password/reset', [
+    check('token', 'Password reset token is empty.')
+      .not()
+      .isEmpty(),
     check('password', 'Password should be 6 or more characters.').isLength({
         min: 6
       }).custom((value, {req, loc, path}) => {

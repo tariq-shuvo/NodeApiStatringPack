@@ -17,6 +17,29 @@
            <link rel="stylesheet" href="<%= host+styleLink %>">
         <% }); %>
     <% } %>
+    <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.19.0/axios.min.js"></script>
+    <script src="<%= host %>/javascript/auth.js"></script>
+    <script>
+        new Vue({
+            el:'auth_redirect',
+            data:{
+                token: null
+            },
+            mounted(){
+                    if (localStorage.token) {
+                        this.token = localStorage.token
+                        authChecker(this.token).then((result) => {
+                            if(result.auth===true){
+                                window.location = '/dashboard'
+                            }
+                        })
+                    }
+                }
+        })
+    </script> 
 </head>
 
 <body class="theme-purple authentication sidebar-collapse">
+    <div id="auth_redirect"></div>     
+      

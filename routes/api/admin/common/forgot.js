@@ -34,8 +34,10 @@ router.post('/forgot', [
           })
 
         if(!admin){
-            return res.status(404).json({
-                msg: 'Your email is not registered yet'
+            return res.status(400).json({
+                errors: [{
+                    msg: 'This email address is not valid.'
+                }]
             });
         }
 
@@ -48,7 +50,7 @@ router.post('/forgot', [
         await admin.save()  
 
         res.status(200).json({
-            success: "Password reset link has been sent to your email"
+            success: "Password reset link has been sent"
         });
 
     } catch (error) {
