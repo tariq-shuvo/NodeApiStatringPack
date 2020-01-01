@@ -21,43 +21,104 @@
                         </div>
                     </li>
                     <li class="header">MAIN</li>
-                    <li class="active open"><a href="index.html"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>   
-                    <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-city"></i><span>Projects</span></a>
+                    <li class=""><a href="<%= host %>/dashboard"><i class="zmdi zmdi-home"></i><span>Dashboard</span></a></li>   
+                    <li <% if(breadcumb.main.text==='project'){ %> class="active open" <% } %>><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-city"></i><span>Projects</span></a>
                         <ul class="ml-menu">
-                            <li><a href="property-add.html">Add Project</a></li>
-                            <li><a href="property-add.html">Project Types</a></li>
-                            <li><a href="property-list.html">Manage Projects</a></li>
+                            <li <% if(breadcumb.main.text==='project' && breadcumb.sub.length>0){ %>
+                                    <% if(breadcumb.sub[0].text==='create'){ %>
+                                        class="active"
+                                    <% } %>    
+                                <% } %>><a href="<%= host %>/dashboard/project/create">Add Project</a></li>
+                            <li <% if(breadcumb.main.text==='project' && breadcumb.sub.length>0){ %>
+                                <% if(breadcumb.sub[0].text==='type'){ %>
+                                    class="active"
+                                <% } %>    
+                            <% } %>><a href="<%= host %>/dashboard/project/type">Project Types</a></li>
+                            <li <% if(breadcumb.main.text==='project' && breadcumb.sub.length==0){ %>
+                                    class="active"    
+                            <% } %>><a href="<%= host %>/dashboard/project/list">Manage Projects</a></li>
                         </ul>
                     </li>                 
-                    <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-city"></i><span>Property</span></a>
+                    <li <% if(breadcumb.main.text==='property'){ %> class="active open" <% } %>><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-city"></i><span>Property</span></a>
                         <ul class="ml-menu">
-                            <li><a href="property-add.html">Add Property</a></li>
-                            <li><a href="property-add.html">Property Types</a></li>
-                            <li><a href="property-list.html">Manage Property</a></li>
+                            <li <% if(breadcumb.main.text==='property' && breadcumb.sub.length>0){ %>
+                                <% if(breadcumb.sub[0].text==='create'){ %>
+                                    class="active"
+                                <% } %>    
+                            <% } %>><a href="<%= host %>/dashboard/property/create">Add Property</a></li>
+                            <li <% if(breadcumb.main.text==='property' && breadcumb.sub.length>0){ %>
+                                <% if(breadcumb.sub[0].text==='type'){ %>
+                                    class="active"
+                                <% } %>    
+                            <% } %>><a href="<%= host %>/dashboard/property/type">Property Types</a></li>
+                            <li <% if(breadcumb.main.text==='property' && breadcumb.sub.length==0){ %>
+                                class="active"    
+                        <% } %>><a href="<%= host %>/dashboard/property/list">Manage Property</a></li>
                         </ul>
                     </li>
-                    <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-money-box"></i><span>Property Sell</span></a>
+                    <li <% if(breadcumb.main.text==='partition'){ %> class="active open" <% } %>><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-city"></i><span>Property Partition</span></a>
                         <ul class="ml-menu">
-                            <li><a href="apartment.html">New Sell</a></li>
-                            <li><a href="office.html">Sell List</a></li>
+                            <li <% if(breadcumb.main.text==='partition' && breadcumb.sub.length>0){ %>
+                                <% if(breadcumb.sub[0].text==='create'){ %>
+                                    class="active"
+                                <% } %>    
+                            <% } %>><a href="<%= host %>/dashboard/partition/create">New Partition</a></li>
+                            <li <% if(breadcumb.main.text==='partition' && breadcumb.sub.length>0){ %>
+                                <% if(breadcumb.sub[0].text==='type'){ %>
+                                    class="active"
+                                <% } %>    
+                            <% } %>><a href="<%= host %>/dashboard/partition/type">Partition Types</a></li>
+                            <li <% if(breadcumb.main.text==='partition' && breadcumb.sub.length==0){ %>
+                                class="active"    
+                        <% } %>><a href="<%= host %>/dashboard/partition/list">Manage Partition</a></li>
                         </ul>
                     </li>
-                    <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-money-box"></i><span>Property Progress</span></a>
+                    <li <% if(breadcumb.main.text==='sell'){ %> class="active open" <% } %>><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-money-box"></i><span>Property Sell</span></a>
                         <ul class="ml-menu">
-                            <li><a href="apartment.html">New Progress</a></li>
-                            <li><a href="office.html">Progress List</a></li>
+                            <li <% if(breadcumb.main.text==='sell' && breadcumb.sub.length>0){ %>
+                                <% if(breadcumb.sub[0].text==='create'){ %>
+                                    class="active"
+                                <% } %>    
+                            <% } %>><a href="<%= host %>/dashboard/sell/create">New Sell</a></li>
+                            <li <% if(breadcumb.main.text==='sell' && breadcumb.sub.length==0){ %>
+                                class="active"    
+                        <% } %>><a href="<%= host %>/dashboard/sell">Sell List</a></li>
                         </ul>
                     </li>
-                    <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-money-off"></i><span>Payment</span></a>
+                    <li <% if(breadcumb.main.text==='progress'){ %> class="active open" <% } %>><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-money-box"></i><span>Property Progress</span></a>
                         <ul class="ml-menu">
-                            <li><a href="agent.html">New Payment</a></li>
-                            <li><a href="add-agent.html">Payment List</a></li>
+                            <li <% if(breadcumb.main.text==='progress' && breadcumb.sub.length>0){ %>
+                                <% if(breadcumb.sub[0].text==='create'){ %>
+                                    class="active"
+                                <% } %>    
+                            <% } %>><a href="<%= host %>/dashboard/progress/create">New Progress</a></li>
+                            <li <% if(breadcumb.main.text==='progress' && breadcumb.sub.length==0){ %>
+                                class="active"    
+                        <% } %>><a href="<%= host %>/dashboard/progress/list">Progress List</a></li>
                         </ul>
                     </li>
-                    <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-folder-person"></i><span>User</span></a>
+                    <li <% if(breadcumb.main.text==='payment'){ %> class="active open" <% } %>><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-money-off"></i><span>Payment</span></a>
                         <ul class="ml-menu">
-                            <li><a href="contract-add.html">Add New User</a></li>
-                            <li><a href="contract-list.html">User List</a></li>
+                            <li <% if(breadcumb.main.text==='payment' && breadcumb.sub.length>0){ %>
+                                <% if(breadcumb.sub[0].text==='create'){ %>
+                                    class="active"
+                                <% } %>    
+                            <% } %>><a href="<%= host %>/dashboard/payment/create">New Payment</a></li>
+                            <li <% if(breadcumb.main.text==='payment' && breadcumb.sub.length==0){ %>
+                                class="active"    
+                        <% } %>><a href="<%= host %>/dashboard/payment/list">Payment List</a></li>
+                        </ul>
+                    </li>
+                    <li <% if(breadcumb.main.text==='user'){ %> class="active open" <% } %>><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-folder-person"></i><span>User</span></a>
+                        <ul class="ml-menu">
+                            <li <% if(breadcumb.main.text==='user' && breadcumb.sub.length>0){ %>
+                                <% if(breadcumb.sub[0].text==='create'){ %>
+                                    class="active"
+                                <% } %>    
+                            <% } %>><a href="<%= host %>/dashboard/user/create">Add New User</a></li>
+                            <li <% if(breadcumb.main.text==='user' && breadcumb.sub.length==0){ %>
+                                class="active"    
+                        <% } %>><a href="<%= host %>/dashboard/user/list">User List</a></li>
                         </ul>
                     </li>
                     <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-apps"></i><span>Equipments</span></a>

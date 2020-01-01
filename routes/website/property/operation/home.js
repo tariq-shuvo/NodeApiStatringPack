@@ -21,11 +21,31 @@ router.get('/list', function(req, res, next) {
     '/assets/css/color_skins.css',
   ]
 
+  const breadcumb = {
+    main: {
+      text: 'property',
+      link: config.get('hostname') + '/dashboard/property'
+    },
+    sub: [
+    ]
+  }
+
+  const data = {
+    siteTitle: "Amanahomes - Manage Property",
+    pageTitle: "Manage Payment",
+  }
+
   res.render('pages/property/home', {
     scripts: scripts,
     styles: styles,
+    breadcumb: breadcumb,
+    data: data,
     host: config.get('hostname')
   });
+});
+
+router.get('/', function(req, res, next) {
+  res.redirect('/dashboard/property/list')
 });
 
 module.exports = router;

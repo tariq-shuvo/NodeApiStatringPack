@@ -21,9 +21,25 @@ router.get('/list', function(req, res, next) {
     '/assets/css/color_skins.css',
   ]
 
+  const breadcumb = {
+    main: {
+      text: 'user',
+      link: config.get('hostname') + '/dashboard/user'
+    },
+    sub: [
+    ]
+  }
+
+  const data = {
+    siteTitle: "Amanahomes - Manage User",
+    pageTitle: "Manage User",
+  }
+
   res.render('pages/user/home', {
     scripts: scripts,
     styles: styles,
+    breadcumb: breadcumb,
+    data: data,
     host: config.get('hostname')
   });
 });

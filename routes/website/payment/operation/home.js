@@ -21,11 +21,30 @@ router.get('/list', function(req, res, next) {
     '/assets/css/color_skins.css',
   ]
 
+  const breadcumb = {
+    main: {
+      text: 'payment',
+      link: config.get('hostname') + '/dashboard/payment'
+    },
+    sub: []
+  }
+
+  const data = {
+    siteTitle: "Amanahomes - Payment",
+    pageTitle: "Manage Payment",
+  }
+
   res.render('pages/payment/home', {
     scripts: scripts,
     styles: styles,
+    breadcumb: breadcumb,
+    data: data,
     host: config.get('hostname')
   });
+});
+
+router.get('/', function(req, res, next) {
+  res.redirect('/dashboard/payment/list')
 });
 
 module.exports = router;

@@ -3,7 +3,7 @@ var router = express.Router();
 var config = require('config')
 
 /* GET login page. */
-router.get('/add', function(req, res, next) {
+router.get('/create', function(req, res, next) {
   const scripts = [
     '/assets/bundles/libscripts.bundle.js',
     '/assets/bundles/vendorscripts.bundle.js',
@@ -21,9 +21,29 @@ router.get('/add', function(req, res, next) {
     '/assets/css/color_skins.css',
   ]
 
+  const breadcumb = {
+    main: {
+      text: 'sell',
+      link: config.get('hostname') + '/dashboard/sell'
+    },
+    sub: [
+      {
+        text: 'create',
+        link: config.get('hostname') + '/dashboard/sell/create'
+      }
+    ]
+  }
+
+  const data = {
+    siteTitle: "Amanahomes - Sell Create",
+    pageTitle: "Sell Create",
+  }
+
   res.render('pages/sell/add', {
     scripts: scripts,
     styles: styles,
+    breadcumb: breadcumb,
+    data: data,
     host: config.get('hostname')
   });
 });

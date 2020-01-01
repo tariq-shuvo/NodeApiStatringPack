@@ -14,6 +14,7 @@ var projectRouter = require('./routes/api/property/project');
 var propertyRouter = require('./routes/api/property'); 
 var propertyDivisionRouter = require('./routes/api/property/division'); 
 var propertyType = require('./routes/api/property/type');
+var partitionType = require('./routes/api/property/partitionType');
 var locationRouter = require('./routes/api/location');
 // var propertyProgressRouter = require('./routes/api/property/progress');
 // var propertySellRouter = require('./routes/api/property/sell');
@@ -23,6 +24,9 @@ var projectTypeRouter = require('./routes/api/property/projectType');
 var authSiteRouter = require('./routes/website/auth');
 var dashboardRouter = require('./routes/website/dashboard');
 var propertyAdminRouter = require('./routes/website/property');
+var projectAdminRouter = require('./routes/website/project');
+var progressAdminRouter = require('./routes/website/progress');
+var partitionAdminRouter = require('./routes/website/partition');
 var propertySellAdminRouter = require('./routes/website/sell');
 var propertyPaymentAdminRouter = require('./routes/website/payment');
 var userAdminRouter = require('./routes/website/user');
@@ -52,17 +56,21 @@ app.use('/api/role', [roleRouter.addRole, roleRouter.getRole, roleRouter.updateR
 app.use('/api/property', [propertyRouter.addProperty, propertyRouter.getProperty, propertyRouter.updateProperty]);
 app.use('/api/property/division', [propertyDivisionRouter.addPropertyDivision, propertyDivisionRouter.getPropertyDivision, propertyDivisionRouter.updatePropertyDivision]);
 app.use('/api/property/type', [propertyType.addPropertyType, propertyType.removePropertyType, propertyType.updatePropertyType, propertyType.getPropertyType]);
+app.use('/api/partition/type', [partitionType.addPartitionType, partitionType.removePartitionType, partitionType.updatePartitionType, partitionType.getPartitionType]);
 // app.use('/api/property/progress', [propertyProgressRouter.addPropertyProgress, propertyProgressRouter.removePropertyProgress, propertyProgressRouter.updatePropertyProgress, propertyProgressRouter.getPropertyProgress]);
 // app.use('/api/property/sell', [propertySellRouter.addSellProperty, propertySellRouter.removeSellProperty, propertySellRouter.updateSellProperty, propertySellRouter.getSellProperty]);
 app.use('/api/project', [projectRouter.addProject, projectRouter.updateProject, projectRouter.getProject]);
-app.use('/api/project/type', [projectTypeRouter.addProjectType, projectTypeRouter.updateProjectType, projectTypeRouter.getProjectType]);
+app.use('/api/project/type', [projectTypeRouter.addProjectType, projectTypeRouter.updateProjectType, projectTypeRouter.getProjectType, projectTypeRouter.removeProjectType]);
 
 // Website Routes
 app.use('/', [authSiteRouter.loginAuth, authSiteRouter.registerAuth, authSiteRouter.forgotAuth, authSiteRouter.resetAuth])
 app.use('/dashboard', [dashboardRouter.homeRoute])
-app.use('/dashboard/property', [propertyAdminRouter.addPropertyRoute, propertyAdminRouter.propertyListRoute])
-app.use('/dashboard/property/sell', [propertySellAdminRouter.addPropertySellRoute, propertySellAdminRouter.propertySellListRoute])
-app.use('/dashboard/property/payment', [propertyPaymentAdminRouter.addPropertyPaymentRoute, propertyPaymentAdminRouter.propertyPaymentListRoute])
+app.use('/dashboard/project', [projectAdminRouter.addProjectRoute, projectAdminRouter.projectListRoute, projectAdminRouter.projectTypeRoute])
+app.use('/dashboard/property', [propertyAdminRouter.addPropertyRoute, propertyAdminRouter.propertyListRoute, propertyAdminRouter.propertyTypeRoute])
+app.use('/dashboard/progress', [progressAdminRouter.addProgressRoute, progressAdminRouter.progressListRoute])
+app.use('/dashboard/partition', [partitionAdminRouter.addPartitionRoute, partitionAdminRouter.partitionListRoute, partitionAdminRouter.partitionTypeRoute])
+app.use('/dashboard/sell', [propertySellAdminRouter.addPropertySellRoute, propertySellAdminRouter.propertySellListRoute])
+app.use('/dashboard/payment', [propertyPaymentAdminRouter.addPropertyPaymentRoute, propertyPaymentAdminRouter.propertyPaymentListRoute])
 app.use('/dashboard/user', [userAdminRouter.addPropertyPaymentRoute, userAdminRouter.propertyPaymentListRoute])
 
 

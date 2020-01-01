@@ -21,4 +21,30 @@ router.get('/', async (req, res) => {
     }
 });
 
+// @route GET api/property/type/:typeID
+// @description Get Single Property Types
+// @access Public
+router.get('/:typeID', async (req, res) => {
+    
+    try {
+        let PropertyTypes = await PropertyType.findById(req.params.typeID)
+    
+        res.status(200).json({
+            data: PropertyTypes
+        });
+    } catch (err) {
+        if (err.kind === 'ObjectId') {
+            return res.status(400).send({
+                errors: [
+                    {
+                        msg: 'Invalid project type'
+                    }
+                ]
+            })
+        }
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
 module.exports = router
