@@ -17,8 +17,8 @@ const { getAdminRoleChecking } = require('../../../../lib/helpers');
 // @params name, type(Required) details, summery(Optional)
 router.post('/', [auth, 
     [
-        check('type', 'Type is required').not().isEmpty(),
-        check('name', 'Name is required').not().isEmpty()
+        check('type', 'Project type is required').not().isEmpty(),
+        check('name', 'Project name is required').not().isEmpty()
     ]
 ], async (req, res) => {
     try {

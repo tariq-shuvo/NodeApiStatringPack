@@ -3,7 +3,7 @@ var router = express.Router();
 var config = require('config')
 
 /* GET login page. */
-router.get('/create', function(req, res, next) {
+router.get('/update/:id', function(req, res, next) {
   const scripts = [
     '/assets/bundles/libscripts.bundle.js',
     '/assets/bundles/vendorscripts.bundle.js',
@@ -15,8 +15,8 @@ router.get('/create', function(req, res, next) {
   ]
   const styles = [
     '/assets/plugins/bootstrap/css/bootstrap.min.css',
-    // '/assets/plugins/charts-c3/plugin.css',
-    // '/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css',
+    '/assets/plugins/charts-c3/plugin.css',
+    '/assets/plugins/jvectormap/jquery-jvectormap-2.0.3.min.css',
     '/assets/css/main.css',
     '/assets/css/color_skins.css',
   ]
@@ -26,20 +26,16 @@ router.get('/create', function(req, res, next) {
       text: 'project',
       link: config.get('hostname') + '/dashboard/project'
     },
-    sub: [
-      {
-        text: 'create',
-        link: config.get('hostname') + '/dashboard/project/create'
-      }
-    ]
+    sub: []
   }
 
   const data = {
-    siteTitle: "Amanahomes - Project Create",
-    pageTitle: "Project Create",
+    siteTitle: "Amanahomes - Project Update",
+    pageTitle: "Project Update",
+    propertyID: req.params.id
   }
 
-  res.render('pages/project/add', {
+  res.render('pages/project/update', {
     scripts: scripts,
     styles: styles,
     breadcumb: breadcumb,

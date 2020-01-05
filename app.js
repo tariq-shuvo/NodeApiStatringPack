@@ -59,13 +59,13 @@ app.use('/api/property/type', [propertyType.addPropertyType, propertyType.remove
 app.use('/api/partition/type', [partitionType.addPartitionType, partitionType.removePartitionType, partitionType.updatePartitionType, partitionType.getPartitionType]);
 // app.use('/api/property/progress', [propertyProgressRouter.addPropertyProgress, propertyProgressRouter.removePropertyProgress, propertyProgressRouter.updatePropertyProgress, propertyProgressRouter.getPropertyProgress]);
 // app.use('/api/property/sell', [propertySellRouter.addSellProperty, propertySellRouter.removeSellProperty, propertySellRouter.updateSellProperty, propertySellRouter.getSellProperty]);
-app.use('/api/project', [projectRouter.addProject, projectRouter.updateProject, projectRouter.getProject]);
+app.use('/api/project', [projectRouter.addProject, projectRouter.updateProject, projectRouter.getProject, projectRouter.removeProject]);
 app.use('/api/project/type', [projectTypeRouter.addProjectType, projectTypeRouter.updateProjectType, projectTypeRouter.getProjectType, projectTypeRouter.removeProjectType]);
 
 // Website Routes
 app.use('/', [authSiteRouter.loginAuth, authSiteRouter.registerAuth, authSiteRouter.forgotAuth, authSiteRouter.resetAuth])
 app.use('/dashboard', [dashboardRouter.homeRoute])
-app.use('/dashboard/project', [projectAdminRouter.addProjectRoute, projectAdminRouter.projectListRoute, projectAdminRouter.projectTypeRoute])
+app.use('/dashboard/project', [projectAdminRouter.addProjectRoute, projectAdminRouter.updateProjectRoute, projectAdminRouter.projectListRoute, projectAdminRouter.projectTypeRoute])
 app.use('/dashboard/property', [propertyAdminRouter.addPropertyRoute, propertyAdminRouter.propertyListRoute, propertyAdminRouter.propertyTypeRoute])
 app.use('/dashboard/progress', [progressAdminRouter.addProgressRoute, progressAdminRouter.progressListRoute])
 app.use('/dashboard/partition', [partitionAdminRouter.addPartitionRoute, partitionAdminRouter.partitionListRoute, partitionAdminRouter.partitionTypeRoute])

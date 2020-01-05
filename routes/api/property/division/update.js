@@ -111,7 +111,7 @@ router.put('/:divsionID/image/upload', [auth, upload.single('file')], async (req
       const filesize = parseFloat(uploadedFileDetails.size) / (1024 * 1024)
       if (filesize < 1) {
         try {
-          let path = uploadedFileDetails.path.replace('public\\', './')
+          let path = uploadedFileDetails.path.replace('public\\', '/')
           let propertyDivisionInfo = await PropertyDivision.findById(req.params.divsionID)
           propertyDivisionInfo.images.push(path.replace(/\\/g, "/"))
           await propertyDivisionInfo.save()

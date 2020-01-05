@@ -87,11 +87,14 @@ router.put('/:projectID/image/upload', [auth, upload.single('file')], async (req
       const filesize = parseFloat(uploadedFileDetails.size) / (1024 * 1024)
       if (filesize < 1) {
         try {
-          let path = uploadedFileDetails.path.replace('public\\', './')
+          let path = uploadedFileDetails.path.replace('public\\', '/')
           let project = await Project.findById(req.params.projectID)
           project.images.push(path.replace(/\\/g, "/"))
           await project.save()
-          return res.status(200).json(project)
+          return res.status(200).json({
+            msg: 'Project image uploaded successfully',
+            data: project
+          })
         } catch (error) {
           console.error(error.message)
           return res.status(500).send('Server error')
@@ -150,7 +153,7 @@ router.put('/:projectID/image/remove', [auth,
             }) 
         }
 
-        let path = project.images[image_index].replace('./', 'public\\').replace(/\\/g, "/")
+        let path = project.images[image_index].replace('/', 'public\\').replace(/\\/g, "/")
 
         project.images = project.images.filter((value, index) => index !== image_index)
         await project.save()

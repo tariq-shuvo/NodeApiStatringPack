@@ -9,148 +9,45 @@
     
     <% include ../../partials/content/header %>
     
-    <div class="container-fluid">
+    <div class="container-fluid" id="property_home_section">
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card">                   
                     <div class="body">
+                        <div class="row">
+                            <div class="col-lg-6 offset-lg-3">
+                                <% include ../notification/message %>
+                            </div>
+                        </div>
                         <div class="table-responsive">
-                            <table class="table td_2 table-striped table-hover js-basic-example dataTable">
-                                <thead>
-                                    <tr>
-                                        <th>#</th>
-                                        <th>Property</th>
-                                        <th>Address</th>
-                                        <th>Beds</th>
-                                        <th>sq. ft</th>
-                                        <th>Agent</th>
-                                        <th>Sale/Rent</th>
-                                        <th>Price</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    <tr>
-                                        <td>1</td>
-                                        <td>Beautiful home for sale</td>
-                                        <td>Chicago</td>
-                                        <td>4 BHK</td>
-                                        <td>2,000 ft2</td>
-                                        <td>Maria Barlow</td>
-                                        <td><span class="badge badge-primary mb-0">Sale</span></td>
-                                        <td>$320,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td>2</td>
-                                        <td>Luxury Apartment</td>
-                                        <td>chelsea</td>
-                                        <td>3 BHK</td>
-                                        <td>1,320 ft2</td>
-                                        <td>Maria Barlow</td>
-                                        <td><span class="badge badge-success mb-0">Rent</span></td>
-                                        <td>$2,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td>3</td>
-                                        <td>Beautiful home for sale</td>
-                                        <td>Chicago</td>
-                                        <td>4 BHK</td>
-                                        <td>2,000 ft2</td>
-                                        <td>Maria Barlow</td>
-                                        <td><span class="badge badge-primary mb-0">Sale</span></td>
-                                        <td>$30,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td>4</td>
-                                        <td>Beautiful home for sale</td>
-                                        <td>Chicago</td>
-                                        <td>4 BHK</td>
-                                        <td>2,000 ft2</td>
-                                        <td>Maria Barlow</td>
-                                        <td><span class="badge badge-primary mb-0">Sale</span></td>
-                                        <td>$320,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td>5</td>
-                                        <td>Luxury Apartment</td>
-                                        <td>chelsea</td>
-                                        <td>3 BHK</td>
-                                        <td>1,320 ft2</td>
-                                        <td>Eliana Smith</td>
-                                        <td><span class="badge badge-success mb-0">Rent</span></td>
-                                        <td>$2,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td>6</td>
-                                        <td>Beautiful home for sale</td>
-                                        <td>Chicago</td>
-                                        <td>4 BHK</td>
-                                        <td>2,000 ft2</td>
-                                        <td>Maria Barlow</td>
-                                        <td><span class="badge badge-primary mb-0">Sale</span></td>
-                                        <td>$30,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td>7</td>
-                                        <td>Beautiful home for sale</td>
-                                        <td>Austin</td>
-                                        <td>4 BHK</td>
-                                        <td>2,000 ft2</td>
-                                        <td>Eliana Smith</td>
-                                        <td><span class="badge badge-primary mb-0">Sale</span></td>
-                                        <td>$25,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td>8</td>
-                                        <td>Luxury Apartment</td>
-                                        <td>chelsea</td>
-                                        <td>3 BHK</td>
-                                        <td>1,320 ft2</td>
-                                        <td>Matthew Deo</td>
-                                        <td><span class="badge badge-success mb-0">Rent</span></td>
-                                        <td>$2,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td>9</td>
-                                        <td>Beautiful home for sale</td>
-                                        <td>Texas</td>
-                                        <td>4 BHK</td>
-                                        <td>2,000 ft2</td>
-                                        <td>Matthew Deo</td>
-                                        <td><span class="badge badge-success mb-0">Rent</span></td>
-                                        <td>$15,025</td>
-                                    </tr>
-                                    <tr>
-                                        <td>10</td>
-                                        <td>Beautiful home for sale</td>
-                                        <td>Chicago</td>
-                                        <td>4 BHK</td>
-                                        <td>2,000 ft2</td>
-                                        <td>Maria Barlow</td>
-                                        <td><span class="badge badge-success mb-0">Rent</span></td>
-                                        <td>$35,251</td>
-                                    </tr>
-                                    <tr>
-                                        <td>11</td>
-                                        <td>Luxury Apartment</td>
-                                        <td>Florida</td>
-                                        <td>3 BHK</td>
-                                        <td>1,320 ft2</td>
-                                        <td>Maria Barlow</td>
-                                        <td><span class="badge badge-success mb-0">Rent</span></td>
-                                        <td>$2,800</td>
-                                    </tr>
-                                    <tr>
-                                        <td>12</td>
-                                        <td>Beautiful home for sale</td>
-                                        <td>Pioneers park</td>
-                                        <td>4 BHK</td>
-                                        <td>2,000 ft2</td>
-                                        <td>Maria Barlow</td>
-                                        <td><span class="badge badge-primary mb-0">Sale</span></td>
-                                        <td>$30,800</td>
-                                    </tr>
-                                </tbody>
-                            </table>
+                            <template v-if="projectData.data && projectData.data.length > 0">
+                                <table class="table td_2 table-striped table-hover js-basic-example dataTable">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                        <tbody>
+                                            <tr v-for="(projectData, index) in projectData.data" :key="projectData._id">
+                                                <td>{{ index + 1 }}</td>
+                                                <td style="text-transform: capitalize;">{{projectData.name}}</td>
+                                                <td>
+                                                    <button :disabled="isDisable" class="btn btn-icon btn-neutral btn-icon-mini"><i class="zmdi zmdi-eye"></i></button>
+                                                    <a :href="'<%= host %>/dashboard/project/update/'+projectData._id"><button :disabled="isDisable" class="btn btn-icon btn-neutral btn-icon-mini"><i class="zmdi zmdi-edit"></i></button></a>
+                                                    <button :disabled="isDisable" @click="deleteProject(projectData._id)" class="btn btn-icon btn-neutral btn-icon-mini"><i class="zmdi zmdi-delete"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </template>
+                                        
+                                    
+                                </table>
+                            </template>
+                            <template v-else>
+                                <p class="text-center mt-4">No data is available about project.</p>
+                            </template>
                         </div>
                     </div>
                 </div>
@@ -158,6 +55,52 @@
         </div>
     </div>
 </section>
+<script src="<%= host %>/javascript/data_manipulation.js"></script>
+<script>
+    new Vue({
+        el: '#property_home_section',
+        data:{
+            projectData: [],
+            errorResponse: null,
+            successResponse: null,
+            isDisable: false
+
+        },
+        mounted(){
+            this.getProjectData()
+        },
+        methods: {
+            getProjectData(){
+                let requestLink = '/api/project'
+                getData(requestLink).then((result) => {
+                    if(result.auth === true){
+                        this.projectData = result.response
+                    }
+                })
+            },
+            clear_notifications(){
+                this.errorResponse = null
+                this.successResponse = null
+            },
+            deleteProject(projectID){
+                this.clear_notifications()
+                this.isDisable = true
+                let requestLink = '/api/project/'
+                let token = localStorage.getItem('token')
+                deleteData(requestLink, projectID, token).then((result) => {
+                    if(result.auth===false)
+                    {
+                        this.errorResponse = result.response 
+                    }else{
+                        this.getProjectData()
+                        this.successResponse = result.response
+                    }
+                    this.isDisable = false
+                })
+            }
+        }
+    })
+</script>
 
 
 <% include ../../partials/footer %>

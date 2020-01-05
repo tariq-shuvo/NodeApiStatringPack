@@ -104,7 +104,7 @@ router.put('/:propertyID/image/upload', [auth, upload.single('file')], async (re
       const filesize = parseFloat(uploadedFileDetails.size) / (1024 * 1024)
       if (filesize < 1) {
         try {
-          let path = uploadedFileDetails.path.replace('public\\', './')
+          let path = uploadedFileDetails.path.replace('public\\', '/')
           let property = await Property.findById(req.params.propertyID)
           property.images.push(path.replace(/\\/g, "/"))
           await property.save()
