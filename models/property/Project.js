@@ -9,10 +9,12 @@ const ProjectSchema = new Schema({
     images: {
         type: [String]
     },
-    type: {
-        type: [Schema.Types.ObjectId],
-        ref: 'projecttype'
-    },
+    type: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'projecttype'
+        }
+    ],
     details: {
         type: String
     },

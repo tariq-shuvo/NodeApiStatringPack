@@ -16,9 +16,9 @@ const { getAdminRoleChecking } = require('../../../lib/helpers');
 // @access Private
 router.post('/', [auth,
     [
-        check('project', 'project id is required').not().isEmpty(),
-        check('project_type', 'project type id is required').not().isEmpty(),
-        check('agents', 'Agent is required').not().isEmpty(),
+        check('project', 'project selection is required').not().isEmpty(),
+        check('project_type', 'project type is required').not().isEmpty(),
+        check('property_type', 'Property type is required').not().isEmpty(),
         check('name', 'Properrty name is required').not().isEmpty(),
         check('details', 'Property details is required').not().isEmpty(),
         check('address', 'Address is required').not().isEmpty(),
@@ -61,12 +61,17 @@ router.post('/', [auth,
             "parking.available" : req.body.parking_no
         })
 
-        propertyInfo.agents = req.body.agents != null ? req.body.agents.split(',').map(agent => agent.trim()) : []
+        propertyInfo.agents = req.body.agents != '' ? req.body.agents.split(',').map(agent => agent.trim()) : []
+        propertyInfo.propertyType = req.body.property_type != '' ? req.body.property_type.split(',').map(type => type.trim()) : []
 
-        propertyInfo.contact.phone = req.body.phone != null ? req.body.phone.split(',').map(phone => phone.trim()) : []
+        propertyInfo.contact.phone = req.body.phone != '' ? req.body.phone.split(',').map(phone => phone.trim()) : []
 
         if(req.body.summery){
             propertyInfo.summery = req.body.summery
+        }
+
+        if(req.body.map){
+            propertyInfo.mapLocation = req.body.map
         }
 
         await propertyInfo.save()

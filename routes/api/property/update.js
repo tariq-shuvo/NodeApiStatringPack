@@ -108,7 +108,10 @@ router.put('/:propertyID/image/upload', [auth, upload.single('file')], async (re
           let property = await Property.findById(req.params.propertyID)
           property.images.push(path.replace(/\\/g, "/"))
           await property.save()
-          return res.status(200).json(property)
+          return res.status(200).json({
+            msg: 'Property image uploaded successfully',
+            data: property
+          })
         } catch (error) {
           console.error(error.message)
           return res.status(500).send('Server error')
@@ -167,13 +170,13 @@ router.put('/:propertyID/image/remove', [auth,
             }) 
         }
 
-        let path = property.images[image_index].replace('./', 'public\\').replace(/\\/g, "/")
+        let path = property.images[image_index].replace('/', 'public\\').replace(/\\/g, "/")
 
         property.images = property.images.filter((value, index) => index !== image_index)
         await property.save()
         
         const successInfo ={
-            msg: 'Project image removed successfully',
+            msg: 'Property image removed successfully',
             data: property
         }
 

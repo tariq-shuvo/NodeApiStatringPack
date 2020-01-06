@@ -9,7 +9,7 @@ const Project = require('../../../../models/property/Project');
 router.get('/', async (req, res) => {
     
     try {
-        let project = await Project.find({})
+        let project = await Project.find({}).populate('type', ['name'])
     
         res.status(200).json({
             data: project
@@ -26,7 +26,7 @@ router.get('/', async (req, res) => {
 // @access Public
 router.get('/single/:projectID', async (req, res) => { 
     try {
-        let project = await Project.findById(req.params.projectID)
+        let project = await Project.findById(req.params.projectID).populate('type', ['name'])
     
         res.status(200).json({
             data: project

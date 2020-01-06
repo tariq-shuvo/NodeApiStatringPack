@@ -14,10 +14,18 @@ const PropertySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'projecttype'
     },
-    agents: {
-        type: [Schema.Types.ObjectId],
-        ref: 'admin'
-    },
+    agents: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'admin'
+        }
+    ],
+    propertyType: [
+        {
+            type: Schema.Types.ObjectId,
+            ref: 'propertytype'
+        }
+    ],
     images: {
         type: [String]
     },
@@ -52,6 +60,9 @@ const PropertySchema = new Schema({
         taken: {
             type: Number
         }
+    },
+    mapLocation:{
+        type: String
     },
     active:{
         type: Boolean,
