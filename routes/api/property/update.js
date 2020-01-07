@@ -19,7 +19,6 @@ router.put('/', [auth,
         check('property_id', 'Properrty id is required').not().isEmpty(),
         check('project', 'project id is required').not().isEmpty(),
         check('project_type', 'project type id is required').not().isEmpty(),
-        check('agents', 'Agent is required').not().isEmpty(),
         check('name', 'Properrty name is required').not().isEmpty(),
         check('details', 'Property details is required').not().isEmpty(),
         check('address', 'Address is required').not().isEmpty(),
@@ -65,7 +64,7 @@ router.put('/', [auth,
         propertyInfo.contact.division = req.body.division
         propertyInfo.parking.available = req.body.parking_no
         
-        propertyInfo.agents = req.body.agents != null ? req.body.agents.split(',').map(agent => agent.trim()) : []
+        propertyInfo.agents = req.body.agents != '' ? req.body.agents.split(',').map(agent => agent.trim()) : []
         propertyInfo.contact.phone = req.body.phone != null ? req.body.phone.split(',').map(phone => phone.trim()) : []
         propertyInfo.update = Date.now()
 

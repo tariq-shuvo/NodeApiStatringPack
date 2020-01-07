@@ -5,18 +5,19 @@ const auth = require('../../../middleware/admin/auth');
 const Property = require('../../../models/property/Property');
 
 const { getAdminRoleChecking } = require('../../../lib/helpers');
-// @route DELETE api/order
-// @description Remove Role
-// @access Private
-router.delete('/:roleID', auth, async (req, res) => {
-    try {
-        let role = await Role.findById(req.params.roleID)
 
-        if(!role){
+// @route DELETE api/property/:propertyID
+// @description Remove Property ID
+// @access Private
+router.delete('/:propertyID', auth, async (req, res) => {
+    try {
+        let property = await Property.findById(req.params.propertyID)
+
+        if(!property){
             return res.status(400).send({
                 errors: [
                   {
-                    msg: 'Role remove request is invalid'
+                    msg: 'Property remove request is invalid'
                   }
                 ]
               })
@@ -34,11 +35,12 @@ router.delete('/:roleID', auth, async (req, res) => {
             })
         }
 
-        await role.remove()
+        await property.remove()
 
         res.status(200).json({
             type: 'success',
-            msg: 'Role removed successfully'
+            msg: 'Property removed successfully',
+            data: property
         });
     } catch (err) {
         console.error(err);

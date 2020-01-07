@@ -8,187 +8,194 @@
 <section class="content">
     
     <% include ../../partials/content/header %>
-
-    <div class="container-fluid">
+    
+    <div class="container-fluid" id="add_data_section">
         <div class="row clearfix">
             <div class="col-lg-12">
                 <div class="card">
                     <div class="header">
-                        <h2><strong>Basic</strong> Information <small>Description text here...</small> </h2>
-                        <ul class="header-dropdown m-r--5">
-                            <li class="dropdown"> <a href="javascript:void(0);" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><i class="zmdi zmdi-more-vert"></i></a>
-                                <ul class="dropdown-menu pull-right">
-                                    <li><a href="javascript:void(0);" class=" waves-effect waves-block">Action</a></li>
-                                    <li><a href="javascript:void(0);" class=" waves-effect waves-block">Another action</a></li>
-                                    <li><a href="javascript:void(0);" class=" waves-effect waves-block">Something else here</a></li>
-                                </ul>
-                            </li>
-                        </ul>
+                        <h2><strong>Create</strong> Partition Information</h2>
+                        <button v-if="!formDisplay" @click="propcessCompleted" type="button" class="btn btn-primary float-right">Complete</button>
+                        <br/>
                     </div>
                     <div class="body">
-                        <div class="row clearfix">
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Property Name">
+                        <div class="row">
+                            <div class="col-lg-6 offset-lg-3">
+                                <% include ../notification/message %>
+                            </div>
+                        </div> 
+                        
+                        <form @submit.prevent="addProperty" v-if="formDisplay">
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <h6 class="mt-2 mb-2">Project</h6>
+                                    <div class="form-group">
+                                        <select class="form-control" @change="getProjectTypes(project)" v-model="project">
+                                            <option value="">-- Select Project --</option>
+                                            <option v-for="(projectInfo, index) in allProject" :key="index" :value="projectInfo._id">{{projectInfo.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <template v-if="projectTypes && projectTypes.length > 0">
+                                        <h6 class="mt-2 mb-2">Project Types</h6>
+                                        <div class="radio inlineblock m-r-20" v-for="(type, index) in projectTypes">
+                                            <input :id="type.name" name="projectType" v-model="projectSelectedType" :value="type._id" type="radio">
+                                            <label :for="type.name" class="text-capitalize">{{type.name}}</label>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Property Location">
+
+                            <div class="row mb-3">
+                                <div class="col-sm-6">
+                                    <h6 class="mt-2 mb-2">Property</h6>
+                                    <div class="form-group">
+                                        <select class="form-control" @change="getProjectTypes(project)" v-model="project">
+                                            <option value="">-- Select Project --</option>
+                                            <option v-for="(projectInfo, index) in allProject" :key="index" :value="projectInfo._id">{{projectInfo.name}}</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <template v-if="projectTypes && projectTypes.length > 0">
+                                        <h6 class="mt-2 mb-2">Property Types</h6>
+                                        <div class="radio inlineblock m-r-20" v-for="(type, index) in projectTypes">
+                                            <input :id="type.name" name="projectType" v-model="projectSelectedType" :value="type._id" type="radio">
+                                            <label :for="type.name" class="text-capitalize">{{type.name}}</label>
+                                        </div>
+                                    </template>
                                 </div>
                             </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <div class="form-line">
-                                        <textarea rows="4" class="form-control no-resize" placeholder="Property Description"></textarea>
+
+                            <div class="row mb-3">
+                                <div class="col-sm-12">
+                                    <h6 class="mt-2 mb-2">Property Partition Type</h6>
+                                </div>
+                                <div class="col-md-12">
+                                    <div class="form-group">
+                                        <div class="radio inlineblock m-r-20">
+                                            <input type="radio" name="gender" id="male" class="with-gap" value="option1">
+                                            <label for="male">Rent</label>
+                                        </div>                                
+                                        <div class="radio inlineblock">
+                                            <input type="radio" name="gender" id="Female" class="with-gap" value="option2" checked="">
+                                            <label for="Female">Sale</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <h6 class="mt-4">Property Information</h6>
-                        <div class="row clearfix">
-                            <div class="col-sm-6">
-                                <div class="radio inlineblock m-r-25">
-                                    <input type="radio" name="radio1" id="radio1" value="option1" checked="">
-                                    <label for="radio1">For Rent</label>
+
+                            <div class="row mb-3 clearfix">
+                                <div class="col-sm-12">
+                                    <h6 class="mt-2 mb-2">Property Details</h6>
                                 </div>
-                                <div class="radio inlineblock">
-                                    <input type="radio" name="radio1" id="radio2" value="option2">
-                                    <label for="radio2">For Sale</label>
-                                </div>
-                            </div>
-                            <div class="col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Price / Rent">
-                                </div>
-                            </div>                            
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Bedrooms">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Square ft">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Car Parking">
-                                </div>
-                            </div>
-                            <div class="col-lg-3 col-md-3 col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Year Built">
-                                </div>
-                            </div>
-                            <div class="col-sm-12">
-                                <div class="form-group">
-                                    <textarea rows="4" class="form-control no-resize" placeholder="Property Address"></textarea>
-                                </div>
-                            </div>
-                        </div>
-                        <h6 class="mt-4">Dimensions</h6>
-                        <div class="row">
-                            <div class="col-lg-2 col-md-4 col-sm-6">
-                                <div class="form-line">
-                                    <input type="text" class="form-control" placeholder="Dining Room">
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-4 col-sm-6">
-                                <div class="form-line">
-                                    <input type="text" class="form-control" placeholder="Kitchen">
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-4 col-sm-6">
-                                <div class="form-line">
-                                    <input type="text" class="form-control" placeholder="Living Room">
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-4 col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Master Bedroom">
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-4 col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Bedroom 2">
-                                </div>
-                            </div>
-                            <div class="col-lg-2 col-md-4 col-sm-6">
-                                <div class="form-group">
-                                    <input type="text" class="form-control" placeholder="Other Room">
-                                </div>
-                            </div>
-                        </div>
-                        <h6 class="mt-4">General Amenities</h6>
-                        <div class="row">
-                            <div class="col-sm-12">
-                                <div class="checkbox inlineblock m-r-20">
-                                    <input id="checkbox21" type="checkbox">
-                                    <label for="checkbox21">Swimming pool</label>
-                                </div>
-                                <div class="checkbox inlineblock m-r-20">
-                                    <input id="checkbox22" type="checkbox">
-                                    <label for="checkbox22">Terrace</label>
-                                </div>
-                                <div class="checkbox inlineblock m-r-20">
-                                    <input id="checkbox23" type="checkbox" checked="">
-                                    <label for="checkbox23">Air conditioning</label>
-                                </div>
-                                <div class="checkbox inlineblock m-r-20">
-                                    <input id="checkbox24" type="checkbox" checked="">
-                                    <label for="checkbox24">Internet</label>
-                                </div>
-                                <div class="checkbox inlineblock m-r-20">
-                                    <input id="checkbox25" type="checkbox">
-                                    <label for="checkbox25">Balcony</label>
-                                </div>
-                                <div class="checkbox inlineblock m-r-20">
-                                    <input id="checkbox26" type="checkbox">
-                                    <label for="checkbox26">Cable TV</label>
-                                </div>
-                                <div class="checkbox inlineblock m-r-20">
-                                    <input id="checkbox27" type="checkbox">
-                                    <label for="checkbox27">Computer</label>
-                                </div>
-                                <div class="checkbox inlineblock m-r-20">
-                                    <input id="checkbox28" type="checkbox" checked="">
-                                    <label for="checkbox28">Dishwasher</label>
-                                </div>
-                                <div class="checkbox inlineblock m-r-20">
-                                    <input id="checkbox29" type="checkbox" checked="">
-                                    <label for="checkbox29">Near Green Zone</label>
-                                </div>
-                                <div class="checkbox inlineblock m-r-20">
-                                    <input id="checkbox30" type="checkbox">
-                                    <label for="checkbox30">Near Church</label>
-                                </div>
-                                <div class="checkbox inlineblock m-r-20">
-                                    <input id="checkbox31" type="checkbox">
-                                    <label for="checkbox31">Near Estate</label>
-                                </div>
-                                <div class="checkbox inlineblock m-r-20">
-                                    <input id="checkbox32" type="checkbox">
-                                    <label for="checkbox32">Cofee pot</label>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row clearfix">
-                            <div class="col-sm-12">
-                                <form action="https://thememakker.com/" id="frmFileUpload" class="dropzone m-b-15 m-t-15" method="post" enctype="multipart/form-data">
-                                    <div class="dz-message">
-                                        <div class="drag-icon-cph"> <i class="material-icons">touch_app</i> </div>
-                                        <h3>Drop files here or click to upload.</h3>
-                                        <em>(This is just a demo dropzone. Selected files are <strong>not</strong> actually uploaded.)</em> </div>
-                                    <div class="fallback">
-                                        <input name="file" type="file" multiple />
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" v-model="name" placeholder="Poartition Name">
                                     </div>
-                                </form>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" v-model="summery" placeholder="Partition Summery">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="checkbox inlineblock m-r-20">
+                                        <input id="checkbox" type="checkbox">
+                                        <label for="checkbox" class="text-capitalize">Garrage Is Available</label>
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Garrage Price / Rent">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Total Area">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6 col-lg-3">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Price">
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="form-line">
+                                            <textarea rows="4" class="form-control no-resize" v-model="details" placeholder="Partition Description"></textarea>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="col-sm-12">
-                                <button type="submit" class="btn btn-primary btn-round">Submit</button>
-                                <button type="submit" class="btn btn-default btn-round btn-simple">Cancel</button>
+
+                            <div class="row mb-3 clearfix">
+                                <div class="col-sm-12">
+                                    <h6 class="mt-2 mb-2">Property Payment Informations</h6>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Total Number of Installment">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Per Installment Amount">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Due Date After Days">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" placeholder="Installment Extension Days">
+                                    </div>
+                                </div>
+                            </div>    
+                            
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <button type="submit" :disabled="isDisable" class="btn btn-primary btn-round">Save</button>
+                                    <button @click="clearInputFields" type="button" class="btn btn-default btn-round btn-simple">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+
+                        <div class="row" v-else>
+                            <div class="col-lg-6 offset-lg-3">
+                                <h6 class="mt-2 mb-2">Upload files for this project</h6>
+                                <div class="upload_fields">
+                                    <div class="custom-file">
+                                      <input type="file" @change="uploadFile" :disabled="isLoading" id="uploadedFile" class="custom-file-input" />
+                                      <label class="custom-file-label" for="customFile">Upload property photos</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-12">
+                                <div class="row">
+                                    <template v-if="uploadedImages && uploadedImages.length > 0">
+                                        <div class="spinner-border text-primary mt-4" v-if="isLoading" style="margin: 0 auto" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <template v-else>
+                                            <div class="col-lg-3 col-md-6 mt-4 position-relative" v-for="(uploadedImage, index) in uploadedImages">
+                                                <img class="img-thumbnail img-fluid" :src="uploadedImage" alt="img">
+                                                <button @click="removeFile(index)" class="btn btn-icon btn-neutral btn-icon-mini position-absolute delete-button-position"><i class="zmdi zmdi-delete"></i></button>
+                                            </div>
+                                        </template>
+                                    </template>    
+                                    <template v-else>
+                                        <div class="spinner-border text-primary mt-4" v-if="isLoading" style="margin: 0 auto" role="status">
+                                            <span class="sr-only">Loading...</span>
+                                        </div>
+                                        <div class="col-lg-12 clearfix" v-else>
+                                            <p class="text-center mt-5">No image uploaded for this property</p>
+                                        </div>
+                                    </template>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -197,5 +204,226 @@
         </div>
     </div>
 </section>
+
+<script src="<%= host %>/javascript/data_manipulation.js"></script>
+<script src="<%= host %>/data/location.js"></script>
+<script>
+    new Vue({
+        el: '#add_data_section',
+        data:{
+            allProject: [],
+            project: '',
+            propertySelectedType: [],
+            projectSelectedType: '',
+            agents: [],
+            phone: [],
+            projectTypes: [],
+            propertyTypes: [],
+            divisionList: [],
+            zillaList: [],
+            thanaList: [],
+            division: '',
+            location: '',
+            phoneNumber: '',
+            district: '',
+            address: '',
+            parking: null,
+            mapLink: null,
+            name: '',
+            details: '',
+            summery: '',
+            errorResponse: null,
+            successResponse: null,
+            isDisable: false,
+            formDisplay: true,
+            propertyID: null,
+            uploadedImages: [],
+            isLoading: false
+        },
+        mounted(){
+            this.getProjects()
+            this.getPropertyTypes()
+            this.divisionList = divisionListInfo
+        },
+        methods:{
+            getProjects(){
+                let requestLink = '/api/project'
+                getData(requestLink).then((result) => {
+                    if(result.auth === true){
+                        this.allProject = result.response.data
+                    }
+                })
+            },
+            getProjectTypes(index){
+                this.projectTypes = this.allProject.filter(project => project._id === index)[0].type
+            },
+            getZillaList(division){
+                this.zillaList = districtListInfo.filter(district => district.division_id === division.id)
+                this.district = ''
+            },
+            getThanaList(district){
+                this.thanaList = thanaListInfo.filter(thana => thana.district_id === district.id)
+                this.location = ''
+            },
+            getPropertyTypes(){
+                let requestLink = '/api/property/type'
+                getData(requestLink).then((result) => {
+                    if(result.auth === true){
+                        this.propertyTypes = result.response.data
+                    }
+                })
+            },
+            getPhoneNumber(e, phoneNo){
+                if (e.keyCode == 188) {
+                    let phoneNumberData = phoneNo.trim().split(',')[0]
+                    this.phone.push(phoneNumberData)
+                    this.phoneNumber = ''
+                }
+            },
+            removePhoneNumber(removeindex){
+                this.phone = this.phone.filter((value, index) => index !== removeindex)
+            },
+            clearNotification(){
+                this.errorResponse = null
+                this.successResponse = null
+            },
+            clearInputFields(){
+                this.project = ''
+                this.projectSelectedType = ''
+                this.propertySelectedType = []
+                   
+                this.name = ''
+                this.details = ''
+                this.summery = ''
+                this.address = ''
+                this.location = ''
+                this.district = ''
+                this.division = ''
+                this.phone = []
+                this.parking = ''
+                this.mapLink = ''
+            },
+            addProperty(){
+                this.clearNotification();
+                this.isDisable = true
+                let phone = ''
+                let agent = ''
+                let property_type = ''
+                this.phone.forEach((value, index) => {
+                    if(this.phone.length === index+1)
+                    {
+                        phone += value
+                    }else{
+                        phone += value+',' 
+                    }
+                    
+                })
+
+                this.agents.forEach((value, index) => {
+                    if(this.agent.length === index+1)
+                    {
+                        agent += value
+                    }else{
+                        agent += value+',' 
+                    }
+                    
+                })
+
+                this.propertySelectedType.forEach((value, index) => {
+                    if(this.propertySelectedType.length === index+1)
+                    {
+                        property_type += value
+                    }else{
+                        property_type += value+',' 
+                    }
+                })
+
+                let propertyInfo = {
+                    project: this.project,
+                    project_type: this.projectSelectedType,
+                    property_type: property_type,
+                    agents: agent,
+                    name: this.name,
+                    details: this.details,
+                    summery: this.summery,
+                    address: this.address,
+                    location: this.location,
+                    city: this.district,
+                    division: this.division,
+                    phone: phone,
+                    parking_no: this.parking,
+                    map: this.mapLink
+                }
+
+                let requestLink = '/api/property'
+                let token = localStorage.getItem('token')
+
+                addNewData(requestLink, propertyInfo, token).then((result) => {
+                    if(result.auth===false)
+                    {
+                        this.errorResponse = result.response 
+                    }else{
+                        this.successResponse = result.response
+                        this.propertyID = this.successResponse.data._id
+                        this.formDisplay = false
+                        this.clearInputFields()
+                    }
+                    this.isDisable = false
+                })
+            },
+            uploadFile(){
+                this.isLoading = true
+                this.clearNotification();
+                let file = document.getElementById("uploadedFile").files[0]
+                let data = new FormData()
+                data.append('file', file)
+               
+                let requestLink = '/api/property/'+ this.propertyID +'/image/upload'
+                let token = localStorage.getItem('token')
+                uploadImageUpdateInfo(requestLink, data, token).then((result) => {
+                    console.log(result.response)
+                    if(result.auth===false)
+                    {
+                        this.errorResponse = result.response 
+                    }else{
+                        this.successResponse = result.response
+                        this.isLoading = false
+                        this.uploadedImages = result.response.data.images
+                    }
+                })
+            },
+            removeFile(imageIndex){
+                this.isLoading = true
+                let data = {
+                    image_index: imageIndex
+                }
+                let requestLink = '/api/property/'+ this.propertyID +'/image/remove'
+                let token = localStorage.getItem('token')
+
+                updateDataInfo(requestLink, data, token).then((result) => {
+                    console.log(result.response)
+                    if(result.auth===false)
+                    {
+                        this.errorResponse = result.response 
+                    }else{
+                        this.successResponse = result.response
+                        this.isLoading = false
+                        this.uploadedImages = result.response.data.images
+                    }
+                    
+                })
+            },
+            propcessCompleted(){
+                this.clearInputFields()
+                this.formDisplay = true
+                this.isLoading = false
+                this.uploadedImages = []
+                this.propertyID = null
+                this.errorResponse = null
+                this.successResponse = null
+            }
+        }
+    })
+</script>
 
 <% include ../../partials/footer %>

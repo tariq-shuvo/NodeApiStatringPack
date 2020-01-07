@@ -41,13 +41,28 @@ const PropertySchema = new Schema({
            type: String
         },
         location:{
-           type: String
+           id:{
+            type: String
+           },
+           name:{
+            type: String
+           }
         },
         city:{
-           type: String
+            id:{
+                type: String
+            },
+            name:{
+                type: String
+            }
         },
         division:{
-           type: String
+            id:{
+                type: String
+            },
+            name:{
+                type: String
+            }
         },
         phone:{
             type: [String]
