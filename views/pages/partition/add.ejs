@@ -25,7 +25,7 @@
                             </div>
                         </div> 
                         
-                        <form @submit.prevent="addProperty" v-if="formDisplay">
+                        <form @submit.prevent="addPropertyPartition" v-if="formDisplay">
                             <div class="row mb-3">
                                 <div class="col-sm-6">
                                     <h6 class="mt-2 mb-2">Project</h6>
@@ -51,17 +51,17 @@
                                 <div class="col-sm-6">
                                     <h6 class="mt-2 mb-2">Property</h6>
                                     <div class="form-group">
-                                        <select class="form-control" @change="getProjectTypes(project)" v-model="project">
-                                            <option value="">-- Select Project --</option>
-                                            <option v-for="(projectInfo, index) in allProject" :key="index" :value="projectInfo._id">{{projectInfo.name}}</option>
+                                        <select class="form-control" @change="getPropertyType(property)" v-model="property">
+                                            <option value="" :selected="property==''">-- Select Property --</option>
+                                            <option v-for="(propertyInfo, index) in allProperty" :key="index" :value="propertyInfo._id">{{propertyInfo.name}}</option>
                                         </select>
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
-                                    <template v-if="projectTypes && projectTypes.length > 0">
+                                    <template v-if="propertyTypes && propertyTypes.length > 0">
                                         <h6 class="mt-2 mb-2">Property Types</h6>
-                                        <div class="radio inlineblock m-r-20" v-for="(type, index) in projectTypes">
-                                            <input :id="type.name" name="projectType" v-model="projectSelectedType" :value="type._id" type="radio">
+                                        <div class="radio inlineblock m-r-20" v-for="(type, index) in propertyTypes">
+                                            <input :id="type.name" name="propertyType" v-model="propertySelectedType" :value="type" type="radio">
                                             <label :for="type.name" class="text-capitalize">{{type.name}}</label>
                                         </div>
                                     </template>
@@ -74,14 +74,10 @@
                                 </div>
                                 <div class="col-md-12">
                                     <div class="form-group">
-                                        <div class="radio inlineblock m-r-20">
-                                            <input type="radio" name="gender" id="male" class="with-gap" value="option1">
-                                            <label for="male">Rent</label>
-                                        </div>                                
-                                        <div class="radio inlineblock">
-                                            <input type="radio" name="gender" id="Female" class="with-gap" value="option2" checked="">
-                                            <label for="Female">Sale</label>
-                                        </div>
+                                        <div class="radio inlineblock m-r-20" v-for="(partitionType, index) in propertyPartitionTypes">
+                                            <input type="radio" name="partitionType" @change="partitionTypeData(partitionType.name)"  :id="partitionType.name" class="with-gap" v-model="propertyPartitionSelectedType" :value="partitionType._id">
+                                            <label :for="partitionType.name">{{partitionType.name}}</label>
+                                        </div> 
                                     </div>
                                 </div>
                             </div>
@@ -102,23 +98,23 @@
                                 </div>
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="checkbox inlineblock m-r-20">
-                                        <input id="checkbox" type="checkbox">
+                                        <input id="checkbox" v-model="garage" :checked="garage" type="checkbox">
                                         <label for="checkbox" class="text-capitalize">Garrage Is Available</label>
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-lg-3">
-                                    <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Garrage Price / Rent">
+                                    <div class="form-group"  v-if="garage">
+                                        <input type="text" class="form-control" v-model="garageRent" placeholder="Garrage Price / Rent">
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Total Area">
+                                        <input type="text" class="form-control" v-model="totalArea" placeholder="Total Area">
                                     </div>
                                 </div>
                                 <div class="col-sm-6 col-lg-3">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Price">
+                                        <input type="text" class="form-control" v-model="price" :placeholder="isVisibleInstallmentSection.toLowerCase() === 'sale' ? 'Price per sqf': 'Monthly Rent'">
                                     </div>
                                 </div>
                                 <div class="col-sm-12">
@@ -130,28 +126,28 @@
                                 </div>
                             </div>
 
-                            <div class="row mb-3 clearfix">
+                            <div class="row mb-3 clearfix" v-if="isVisibleInstallmentSection.toLowerCase() === 'sale'">
                                 <div class="col-sm-12">
                                     <h6 class="mt-2 mb-2">Property Payment Informations</h6>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Total Number of Installment">
+                                        <input type="text" v-model="totalInstallments" class="form-control" placeholder="Total Number of Installment">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Per Installment Amount">
+                                        <input type="text" v-model="perInstallmentCost" class="form-control" placeholder="Per Installment Amount">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Due Date After Days">
+                                        <input type="text" v-model="perInstallmentDueDay" class="form-control" placeholder="Due Date After Days">
                                     </div>
                                 </div>
                                 <div class="col-sm-6">
                                     <div class="form-group">
-                                        <input type="text" class="form-control" placeholder="Installment Extension Days">
+                                        <input type="text" v-model="perInstallmentExtensionDay" class="form-control" placeholder="Installment Extension Days">
                                     </div>
                                 </div>
                             </div>    
@@ -166,11 +162,11 @@
 
                         <div class="row" v-else>
                             <div class="col-lg-6 offset-lg-3">
-                                <h6 class="mt-2 mb-2">Upload files for this project</h6>
+                                <h6 class="mt-2 mb-2">Upload files for this property partition</h6>
                                 <div class="upload_fields">
                                     <div class="custom-file">
                                       <input type="file" @change="uploadFile" :disabled="isLoading" id="uploadedFile" class="custom-file-input" />
-                                      <label class="custom-file-label" for="customFile">Upload property photos</label>
+                                      <label class="custom-file-label" for="customFile">Upload property partition photos</label>
                                     </div>
                                 </div>
                             </div>
@@ -206,32 +202,34 @@
 </section>
 
 <script src="<%= host %>/javascript/data_manipulation.js"></script>
-<script src="<%= host %>/data/location.js"></script>
 <script>
     new Vue({
         el: '#add_data_section',
         data:{
             allProject: [],
+            allProperty: [],
             project: '',
-            propertySelectedType: [],
+            property: '',
+            propertySelectedType: '',
+            propertyPartitionSelectedType: '',
             projectSelectedType: '',
-            agents: [],
-            phone: [],
             projectTypes: [],
             propertyTypes: [],
-            divisionList: [],
-            zillaList: [],
-            thanaList: [],
-            division: '',
-            location: '',
-            phoneNumber: '',
-            district: '',
-            address: '',
-            parking: null,
-            mapLink: null,
+            propertyPartitionTypes: [],
             name: '',
             details: '',
             summery: '',
+            garage: false,
+            garageRent: null,
+            totalArea: null,
+            area_unit: 'sqf',
+            price: null,
+            price_unit: 'sqf',
+            totalInstallments: null,
+            perInstallmentCost: null,
+            perInstallmentDueDay: null,
+            perInstallmentExtensionDay: null,
+            isVisibleInstallmentSection: '',
             errorResponse: null,
             successResponse: null,
             isDisable: false,
@@ -242,8 +240,7 @@
         },
         mounted(){
             this.getProjects()
-            this.getPropertyTypes()
-            this.divisionList = divisionListInfo
+            this.getPropertyPartitionType()
         },
         methods:{
             getProjects(){
@@ -254,34 +251,35 @@
                     }
                 })
             },
-            getProjectTypes(index){
-                this.projectTypes = this.allProject.filter(project => project._id === index)[0].type
+            partitionTypeData(data){
+                this.isVisibleInstallmentSection = data
             },
-            getZillaList(division){
-                this.zillaList = districtListInfo.filter(district => district.division_id === division.id)
-                this.district = ''
-            },
-            getThanaList(district){
-                this.thanaList = thanaListInfo.filter(thana => thana.district_id === district.id)
-                this.location = ''
-            },
-            getPropertyTypes(){
-                let requestLink = '/api/property/type'
+            getPropertyPartitionType(){
+                let requestLink = '/api/partition/type'
                 getData(requestLink).then((result) => {
                     if(result.auth === true){
-                        this.propertyTypes = result.response.data
+                        this.propertyPartitionTypes = result.response.data
+                        this.propertyPartitionSelectedType = result.response.data[0]._id
                     }
                 })
             },
-            getPhoneNumber(e, phoneNo){
-                if (e.keyCode == 188) {
-                    let phoneNumberData = phoneNo.trim().split(',')[0]
-                    this.phone.push(phoneNumberData)
-                    this.phoneNumber = ''
-                }
+            getProjectTypes(index){
+                this.projectTypes = this.allProject.filter(project => project._id === index)[0].type
+                this.getPropertyOfProject(index)
+                this.property = ''
+                this.propertyTypes = []
             },
-            removePhoneNumber(removeindex){
-                this.phone = this.phone.filter((value, index) => index !== removeindex)
+            getPropertyOfProject(projectID){
+                let requestLink = '/api/property/select'
+                getData(requestLink).then((result) => {
+                    if(result.auth === true){
+                        let propertyInfo = result.response.data.filter(property => property.project === projectID)
+                        this.allProperty = propertyInfo
+                    }
+                })
+            },
+            getPropertyType(propertyID){
+                this.propertyTypes = this.allProperty.filter(property => property._id === propertyID)[0].propertyType
             },
             clearNotification(){
                 this.errorResponse = null
@@ -289,73 +287,54 @@
             },
             clearInputFields(){
                 this.project = ''
-                this.projectSelectedType = ''
-                this.propertySelectedType = []
-                   
+                this.property = ''
+                this.propertySelectedType = ''
+                this.propertyPartitionSelectedType = ''
+                this.projectTypes = []
+                this.propertyTypes = []
+
                 this.name = ''
                 this.details = ''
                 this.summery = ''
-                this.address = ''
-                this.location = ''
-                this.district = ''
-                this.division = ''
-                this.phone = []
-                this.parking = ''
-                this.mapLink = ''
+
+                this.garage = false
+                this.garageRent = null
+                this.totalArea = null
+                this.price = null
+                this.totalInstallments = null
+                this.perInstallmentCost = null
+                this.perInstallmentDueDay = null
+                this.perInstallmentExtensionDay = null
+                
             },
-            addProperty(){
+            addPropertyPartition(){
                 this.clearNotification();
                 this.isDisable = true
-                let phone = ''
-                let agent = ''
-                let property_type = ''
-                this.phone.forEach((value, index) => {
-                    if(this.phone.length === index+1)
-                    {
-                        phone += value
-                    }else{
-                        phone += value+',' 
-                    }
-                    
-                })
-
-                this.agents.forEach((value, index) => {
-                    if(this.agent.length === index+1)
-                    {
-                        agent += value
-                    }else{
-                        agent += value+',' 
-                    }
-                    
-                })
-
-                this.propertySelectedType.forEach((value, index) => {
-                    if(this.propertySelectedType.length === index+1)
-                    {
-                        property_type += value
-                    }else{
-                        property_type += value+',' 
-                    }
-                })
+                
 
                 let propertyInfo = {
                     project: this.project,
+                    property: this.property,
                     project_type: this.projectSelectedType,
-                    property_type: property_type,
-                    agents: agent,
+                    property_type: this.propertySelectedType._id,
                     name: this.name,
                     details: this.details,
                     summery: this.summery,
-                    address: this.address,
-                    location: this.location,
-                    city: this.district,
-                    division: this.division,
-                    phone: phone,
-                    parking_no: this.parking,
-                    map: this.mapLink
+                    ads_type: this.propertyPartitionSelectedType,
+                    price_unit: this.price_unit,
+                    price: this.price,
+                    "garage.availability": this.garage,
+                    "garage.price": this.garageRent,
+                    price_unit: this.price_unit,
+                    total_area: this.totalArea,
+                    area_unit: this.area_unit,
+                    installment_amount: this.totalInstallments,
+                    total_installment_number: this.perInstallmentCost,
+                    payment_due_duration: this.perInstallmentDueDay,
+                    payment_due_date_extension: this.perInstallmentExtensionDay
                 }
 
-                let requestLink = '/api/property'
+                let requestLink = '/api/property/division'
                 let token = localStorage.getItem('token')
 
                 addNewData(requestLink, propertyInfo, token).then((result) => {
@@ -378,7 +357,7 @@
                 let data = new FormData()
                 data.append('file', file)
                
-                let requestLink = '/api/property/'+ this.propertyID +'/image/upload'
+                let requestLink = '/api/property/division/'+ this.propertyID +'/image/upload'
                 let token = localStorage.getItem('token')
                 uploadImageUpdateInfo(requestLink, data, token).then((result) => {
                     console.log(result.response)
@@ -397,7 +376,7 @@
                 let data = {
                     image_index: imageIndex
                 }
-                let requestLink = '/api/property/'+ this.propertyID +'/image/remove'
+                let requestLink = '/api/property/division/'+ this.propertyID +'/image/remove'
                 let token = localStorage.getItem('token')
 
                 updateDataInfo(requestLink, data, token).then((result) => {

@@ -54,7 +54,7 @@ app.use('/api/user', [usersRouter.user, usersRouter.auth, usersRouter.verify, us
 app.use('/api/admin', [adminRouter.admin, adminRouter.auth, adminRouter.verify, adminRouter.forgot, adminRouter.reset]);
 app.use('/api/role', [roleRouter.addRole, roleRouter.getRole, roleRouter.updateRole, roleRouter.removeRole]);
 app.use('/api/property', [propertyRouter.addProperty, propertyRouter.getProperty, propertyRouter.updateProperty, propertyRouter.removeProperty]);
-app.use('/api/property/division', [propertyDivisionRouter.addPropertyDivision, propertyDivisionRouter.getPropertyDivision, propertyDivisionRouter.updatePropertyDivision]);
+app.use('/api/property/division', [propertyDivisionRouter.addPropertyDivision, propertyDivisionRouter.getPropertyDivision, propertyDivisionRouter.updatePropertyDivision, propertyDivisionRouter.removePropertyDivision]);
 app.use('/api/property/type', [propertyType.addPropertyType, propertyType.removePropertyType, propertyType.updatePropertyType, propertyType.getPropertyType]);
 app.use('/api/partition/type', [partitionType.addPartitionType, partitionType.removePartitionType, partitionType.updatePartitionType, partitionType.getPartitionType]);
 // app.use('/api/property/progress', [propertyProgressRouter.addPropertyProgress, propertyProgressRouter.removePropertyProgress, propertyProgressRouter.updatePropertyProgress, propertyProgressRouter.getPropertyProgress]);
@@ -68,7 +68,7 @@ app.use('/dashboard', [dashboardRouter.homeRoute])
 app.use('/dashboard/project', [projectAdminRouter.addProjectRoute, projectAdminRouter.updateProjectRoute, projectAdminRouter.projectListRoute, projectAdminRouter.projectTypeRoute])
 app.use('/dashboard/property', [propertyAdminRouter.addPropertyRoute, propertyAdminRouter.updatePropertyRoute, propertyAdminRouter.propertyListRoute, propertyAdminRouter.propertyTypeRoute])
 app.use('/dashboard/progress', [progressAdminRouter.addProgressRoute, progressAdminRouter.progressListRoute])
-app.use('/dashboard/partition', [partitionAdminRouter.addPartitionRoute, partitionAdminRouter.partitionListRoute, partitionAdminRouter.partitionTypeRoute])
+app.use('/dashboard/partition', [partitionAdminRouter.addPartitionRoute, partitionAdminRouter.partitionListRoute, partitionAdminRouter.partitionTypeRoute, partitionAdminRouter.updatePartitionRoute])
 app.use('/dashboard/sell', [propertySellAdminRouter.addPropertySellRoute, propertySellAdminRouter.propertySellListRoute])
 app.use('/dashboard/payment', [propertyPaymentAdminRouter.addPropertyPaymentRoute, propertyPaymentAdminRouter.propertyPaymentListRoute])
 app.use('/dashboard/user', [userAdminRouter.addPropertyPaymentRoute, userAdminRouter.propertyPaymentListRoute])

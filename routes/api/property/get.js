@@ -22,6 +22,25 @@ router.get('/', async (req, res) => {
 });
 
 
+
+// @route GET api/property
+// @description Get all property
+// @access Public
+router.get('/select', async (req, res) => {
+    
+    try {
+        let properties = await Property.find({}).select('project').select('_id').select('name').populate('propertyType', ['name'])
+    
+        res.status(200).json({
+            data: properties
+        });
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Server error');
+    }
+});
+
+
 // @route GET api/property/single/:propertyID
 // @description Get all property
 // @access Public

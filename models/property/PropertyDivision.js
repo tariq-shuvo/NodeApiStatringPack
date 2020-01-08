@@ -27,8 +27,8 @@ const PropertyDivisionSchema = new Schema({
         ref: 'propertytype'
     },
     ads_type:{
-        type: String,
-        required: true
+        type: Schema.Types.ObjectId,
+        ref: 'partitiontype'
     },
     images: {
         type: [String]
@@ -75,6 +75,16 @@ const PropertyDivisionSchema = new Schema({
     active:{
         type: Boolean,
         default: true
+    },
+    garage:{
+        availability:{
+            type: Boolean,
+            default: false
+        },
+        price:{
+            type: Number,
+            default: null
+        }
     },
     payment:{
         installment:{

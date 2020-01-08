@@ -115,7 +115,10 @@ router.put('/:divsionID/image/upload', [auth, upload.single('file')], async (req
           let propertyDivisionInfo = await PropertyDivision.findById(req.params.divsionID)
           propertyDivisionInfo.images.push(path.replace(/\\/g, "/"))
           await propertyDivisionInfo.save()
-          return res.status(200).json(propertyDivisionInfo)
+          return res.status(200).json({
+            msg: 'Property partition image uploaded successfully',
+            data: propertyDivisionInfo  
+            })
         } catch (error) {
           console.error(error.message)
           return res.status(500).send('Server error')
@@ -174,13 +177,13 @@ router.put('/:divsionID/image/remove', [auth,
             }) 
         }
 
-        let path = propertyDivisionInfo.images[image_index].replace('./', 'public\\').replace(/\\/g, "/")
+        let path = propertyDivisionInfo.images[image_index].replace('/', 'public\\').replace(/\\/g, "/")
 
         propertyDivisionInfo.images = propertyDivisionInfo.images.filter((value, index) => index !== image_index)
         await propertyDivisionInfo.save()
         
         const successInfo ={
-            msg: 'Project image removed successfully',
+            msg: 'Property partition image removed successfully',
             data: propertyDivisionInfo
         }
 

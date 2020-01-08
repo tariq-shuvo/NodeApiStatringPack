@@ -26,11 +26,7 @@ router.post('/', [auth,
         check('price', 'Price is required').not().isEmpty(),
         check('price_unit', 'Price unit is required').not().isEmpty(),
         check('total_area', 'Total area is required').not().isEmpty(),
-        check('area_unit', 'Area unit is required').not().isEmpty(),
-        check('installment_amount', 'Payment installment amount is required').not().isEmpty(),
-        check('total_installment_number', 'Payment installment no is required').not().isEmpty(),
-        check('payment_due_duration', 'Payment installment day interval is required').not().isEmpty(),
-        check('payment_due_date_extension', 'Payment date extension is required').not().isEmpty(),
+        check('area_unit', 'Area unit is required').not().isEmpty()
     ]
 ], async (req, res) => {
     try {
@@ -85,11 +81,16 @@ router.post('/', [auth,
             }
         })
 
+        if(req.body.garage_availability){
+            propertyDivisionInfo.garage.availability = req.body.garage_availability
+            propertyDivisionInfo.garage.price = req.body.garage_price
+        }
+
         await propertyDivisionInfo.save()
 
         res.status(200).json({
             type: 'success',
-            msg: 'Property divided successfully',
+            msg: 'Property partition created successfully',
             data: propertyDivisionInfo
         })
     } catch (err) {
