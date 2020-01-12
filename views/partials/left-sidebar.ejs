@@ -109,16 +109,21 @@
                         <% } %>><a href="<%= host %>/dashboard/payment/list">Payment List</a></li>
                         </ul>
                     </li>
-                    <li <% if(breadcumb.main.text==='user'){ %> class="active open" <% } %>><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-folder-person"></i><span>User</span></a>
+                    <li <% if(breadcumb.main.text==='admin'){ %> class="active open" <% } %>><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-folder-person"></i><span>Admin</span></a>
                         <ul class="ml-menu">
-                            <li <% if(breadcumb.main.text==='user' && breadcumb.sub.length>0){ %>
+                            <li <% if(breadcumb.main.text==='admin' && breadcumb.sub.length>0){ %>
                                 <% if(breadcumb.sub[0].text==='create'){ %>
                                     class="active"
                                 <% } %>    
-                            <% } %>><a href="<%= host %>/dashboard/user/create">Add New User</a></li>
-                            <li <% if(breadcumb.main.text==='user' && breadcumb.sub.length==0){ %>
+                            <% } %>><a href="<%= host %>/dashboard/admin/create">Add New Admin</a></li>
+                            <li <% if(breadcumb.main.text==='admin' && breadcumb.sub.length > 0){ %>
+                                <% if(breadcumb.sub[0].text==='role'){ %>
+                                    class="active"
+                                <% } %>  
+                            <% } %>><a href="<%= host %>/dashboard/admin/role">Role List</a></li>
+                            <li <% if(breadcumb.main.text==='admin' && breadcumb.sub.length==0){ %>
                                 class="active"    
-                        <% } %>><a href="<%= host %>/dashboard/user/list">User List</a></li>
+                        <% } %>><a href="<%= host %>/dashboard/admin/list">Admin List</a></li>
                         </ul>
                     </li>
                     <li><a href="javascript:void(0);" class="menu-toggle"><i class="zmdi zmdi-apps"></i><span>Equipments</span></a>

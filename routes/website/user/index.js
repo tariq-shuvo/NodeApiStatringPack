@@ -1,7 +1,11 @@
-const addPropertyPaymentRoute = require('./operation/add')
-const propertyPaymentListRoute = require('./operation/home')
+const addAdminRoute = require('./operation/add')
+const updateAdminRoute = require('./operation/update')
+const roleAdminRoute = require('./operation/role')
+const adminListRoute = require('./operation/home')
 
 module.exports={
-    addPropertyPaymentRoute,
-    propertyPaymentListRoute
+    addAdminRoute,
+    updateAdminRoute,
+    roleAdminRoute,
+    adminListRoute
 }

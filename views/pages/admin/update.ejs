@@ -1,0 +1,225 @@
+<% include ../../partials/header %>
+
+<% include ../../partials/nav %>
+
+<% include ../../partials/left-sidebar %>
+
+<!-- Main Content -->
+<section class="content">
+    
+    <% include ../../partials/content/header %>
+    
+    <div class="container-fluid" id="add_data_section">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">
+                    <div class="header">
+                        <h2><strong>Update</strong> Admin Information</h2>
+                    </div>
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-6 offset-lg-3">
+                                <% include ../notification/message %>
+                            </div>
+                        </div> 
+                        
+                        <form @submit.prevent="addProperty">
+                            <div class="row mb-3 clearfix">
+                                <div class="col-sm-12">
+                                    <h6 class="mt-2 mb-2">Admin Details</h6>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="text" class="form-control" v-model="name" placeholder="Admin Name">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="email" class="form-control" v-model="email" placeholder="Email">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" v-model="password" placeholder="Password">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <input type="password" class="form-control" v-model="confirm_password" placeholder="Confirm Password">
+                                    </div>
+                                </div>
+                                <div class="col-sm-6">
+                                    <div class="form-group">
+                                        <select class="form-control" @change="getAdminTypesSelect($event, admin_access)" v-model="admin_access">
+                                            <option value="">-- Select Access --</option>
+                                            <option :value="{id: accessRole._id, name: accessRole.name}" v-for="(accessRole, index) in accessRoles" :key="index" class="text-capitalize">{{accessRole.name}}</option>
+                                        </select>
+                                    </div>
+                                    <span class="badge badge-primary text-capitalize mr-2" style="font-size: 12px; cursor: pointer;" v-for="(selectedRole, index) in selectedAccessRoles" :key="index">{{selectedRole.name}} <span @click="removeAdminTypesSelect(index)" aria-hidden="true">&times;</span></span>
+                                </div>
+                            </div>
+
+                            <div class="row mb-3 clearfix">
+                                <div class="col-sm-12">
+                                    <h6 class="mt-2 mb-2">Admin Type</h6>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="radio inlineblock m-r-20">
+                                            <input type="radio" name="admin_type" id="super_admin" v-model="admin_type" class="with-gap" value="true">
+                                            <label for="super_admin">Super Admin</label>
+                                        </div>                                
+                                        <div class="radio inlineblock">
+                                            <input type="radio" name="admin_type" id="admin" v-model="admin_type" class="with-gap" value="false">
+                                            <label for="admin">Admin</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-sm-12">
+                                    <h6 class="mt-2 mb-2">Account Activity</h6>
+                                </div>
+                                <div class="col-sm-12">
+                                    <div class="form-group">
+                                        <div class="radio inlineblock m-r-20">
+                                            <input type="radio" name="account_active" id="active_yes" v-model="account_active" class="with-gap" value="true">
+                                            <label for="active_yes">Yes</label>
+                                        </div>                                
+                                        <div class="radio inlineblock">
+                                            <input type="radio" name="account_active" id="active_no" v-model="account_active" class="with-gap" value="false">
+                                            <label for="active_no">No</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>    
+                            
+                            <div class="row clearfix">
+                                <div class="col-sm-12">
+                                    <button type="submit" :disabled="isDisable" class="btn btn-primary btn-round">Save</button>
+                                    <button @click="clearInputFields" type="button" class="btn btn-default btn-round btn-simple">Reset</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<script src="<%= host %>/javascript/data_manipulation.js"></script>
+<script>
+    new Vue({
+        el: '#add_data_section',
+        data:{
+            accessRoles: [],
+            selectedAccessRoles: [],
+            name: '',
+            email: '',
+            password: '',
+            confirm_password: '',
+            admin_access: '',
+            admin_type: true,
+            account_active: true,
+            adminID: '<%= data.adminID %>',
+            errorResponse: null,
+            successResponse: null,
+            isDisable: false
+        },
+        mounted(){
+            this.getAdminDetails()
+            this.getAdminTypes()
+        },
+        methods:{
+            getAdminDetails(){
+                let requestLink = '/api/admin/single/' + this.adminID
+                let token = localStorage.getItem('token')
+                getSecureData(requestLink, token).then((result) => {
+                    if(result.auth === true){
+                        this.name = result.response.name
+                        this.email = result.response.email
+                        this.selectedAccessRoles = result.response.roles
+                        this.admin_type = result.response.superAdmin
+                        this.account_active = result.response.active
+                    }
+                })
+            },
+            getAdminTypes(){
+                let requestLink = '/api/role'
+                getData(requestLink).then((result) => {
+                    if(result.auth === true){
+                        this.accessRoles = result.response.data
+                    }
+                })
+            },
+            getAdminTypesSelect(e, adminAccessType){
+                let adminAccessTypeData = adminAccessType
+                if(adminAccessTypeData!==''){
+                    if(this.selectedAccessRoles.filter((selectedRole => selectedRole._id === adminAccessTypeData.id)).length==0)
+                    {
+                        this.selectedAccessRoles.push(adminAccessTypeData)   
+                    }
+                    this.admin_access = ''
+                }
+            },
+            removeAdminTypesSelect(removeindex){
+                this.selectedAccessRoles = this.selectedAccessRoles.filter((value, index) => index !== removeindex)
+            },
+            clearNotification(){
+                this.errorResponse = null
+                this.successResponse = null
+            },
+            clearInputFields(){
+                this.selectedAccessRoles = []
+                this.name = ''
+                this.email = ''
+                this.password = ''
+                this.confirm_password = ''
+                this.admin_access = ''
+                this.admin_type = true
+                this.account_active = true
+            },
+            addProperty(){
+                this.clearNotification();
+                this.isDisable = true
+
+                let roles = ''
+
+                this.selectedAccessRoles.forEach((value, index) => {
+                    if(this.selectedAccessRoles.length == index+1)
+                    {
+                        roles += value.id
+                    }else{
+                        roles += value.id + ','
+                    }
+                })
+
+                let adminInfo = {
+                    name: this.name,
+                    email: this.email.toLowerCase(),
+                    password: this.password,
+                    confirm_password: this.confirm_password,
+                    roles,
+                    superAdmin: this.admin_type,
+                    active: this.account_active
+                }
+
+
+                let requestLink = '/api/admin'
+                let token = localStorage.getItem('token')
+
+                addNewData(requestLink, adminInfo, token).then((result) => {
+                    if(result.auth===false)
+                    {
+                        this.errorResponse = result.response 
+                    }else{
+                        this.successResponse = result.response
+                        this.clearInputFields()
+                    }
+                    this.isDisable = false
+                })
+            }
+        }
+    })
+</script>
+
+<% include ../../partials/footer %>

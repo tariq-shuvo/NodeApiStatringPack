@@ -3,7 +3,7 @@ var router = express.Router();
 var config = require('config')
 
 /* GET login page. */
-router.get('/create', function(req, res, next) {
+router.get('/update/:id', function(req, res, next) {
   const scripts = [
     '/assets/bundles/libscripts.bundle.js',
     '/assets/bundles/vendorscripts.bundle.js',
@@ -35,11 +35,12 @@ router.get('/create', function(req, res, next) {
   }
 
   const data = {
-    siteTitle: "Amanahomes - Admin Create",
-    pageTitle: "Admin Create",
+    siteTitle: "Amanahomes - Admin Update",
+    pageTitle: "Admin Update",
+    adminID: req.params.id
   }
 
-  res.render('pages/admin/add', {
+  res.render('pages/admin/update', {
     scripts: scripts,
     styles: styles,
     breadcumb: breadcumb,

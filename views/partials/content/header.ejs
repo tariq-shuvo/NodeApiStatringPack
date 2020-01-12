@@ -15,7 +15,7 @@
                 <small class="col-white">Bounce Rate</small>
             </div>
             <% if(breadcumb.sub.length > 0){ %>
-                <% if(breadcumb.sub[0].text === 'type'){ %>
+                <% if(breadcumb.sub[0].text === 'type' || breadcumb.sub[0].text === 'role'){ %>
                 <button class="btn btn-white btn-icon btn-round hidden-sm-down float-right ml-3" type="button" @click="add_type_section">
                     <i class="zmdi zmdi-plus"></i>
                 </button>

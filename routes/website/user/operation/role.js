@@ -3,7 +3,7 @@ var router = express.Router();
 var config = require('config')
 
 /* GET login page. */
-router.get('/create', function(req, res, next) {
+router.get('/role', function(req, res, next) {
   const scripts = [
     '/assets/bundles/libscripts.bundle.js',
     '/assets/bundles/vendorscripts.bundle.js',
@@ -28,18 +28,18 @@ router.get('/create', function(req, res, next) {
     },
     sub: [
       {
-        text: 'create',
-        link: config.get('hostname') + '/dashboard/admin/create'
+        text: 'role',
+        link: config.get('hostname') + '/dashboard/admin/role'
       }
     ]
   }
 
   const data = {
-    siteTitle: "Amanahomes - Admin Create",
-    pageTitle: "Admin Create",
+    siteTitle: "Amanahomes - Role List",
+    pageTitle: "Role List",
   }
 
-  res.render('pages/admin/add', {
+  res.render('pages/admin/role', {
     scripts: scripts,
     styles: styles,
     breadcumb: breadcumb,

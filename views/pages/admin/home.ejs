@@ -1,0 +1,124 @@
+<% include ../../partials/header %>
+
+<% include ../../partials/nav %>
+
+<% include ../../partials/left-sidebar %>
+
+<!-- Main Content -->
+<section class="content">
+    
+    <% include ../../partials/content/header %>
+    
+    <div class="container-fluid" id="property_home_section">
+        <div class="row clearfix">
+            <div class="col-lg-12">
+                <div class="card">                   
+                    <div class="body">
+                        <div class="row">
+                            <div class="col-lg-6 offset-lg-3">
+                                <% include ../notification/message %>
+                            </div>
+                        </div>
+                        <div class="table-responsive">
+                            <template v-if="allAdminData && allAdminData.length > 0">
+                                <table class="table td_2 table-striped table-hover">
+                                    <thead>
+                                        <tr>
+                                            <th>#</th>
+                                            <th>Name</th>
+                                            <th>Email</th>
+                                            <th>Roles</th>
+                                            <th>Super Admin</th>
+                                            <th>Actions</th>
+                                        </tr>
+                                    </thead>
+                                        <tbody>
+                                            <tr v-for="(adminData, index) in allAdminData" :key="adminData._id">
+                                                <td>{{ index + 1 }}</td>
+                                                <td style="text-transform: capitalize;">{{adminData.name}}</td>
+                                                <td style="text-transform: capitalize;">{{adminData.email}}</td>
+                                                <td style="text-transform: capitalize;">
+                                                    <span class="badge badge-primary mb-0 mr-2" v-for="(role,index) in adminData.roles" :key="index">{{role.name}}</span>
+                                                </td>
+                                                
+                                                <td style="text-transform: capitalize;">
+                                                    <template v-if="adminData.superAdmin">
+                                                        <span class="badge badge-primary mb-0">Yes</span>
+                                                    </template>
+
+                                                    <template v-else>
+                                                        <span class="badge badge-primary mb-0">No</span>
+                                                    </template>
+                                                </td>
+                                                <td>
+                                                    <button :disabled="isDisable" class="btn btn-icon btn-neutral btn-icon-mini"><i class="zmdi zmdi-eye"></i></button>
+                                                    <a :href="'<%= host %>/dashboard/admin/update/'+adminData._id"><button :disabled="isDisable" class="btn btn-icon btn-neutral btn-icon-mini"><i class="zmdi zmdi-edit"></i></button></a>
+                                                    <button :disabled="isDisable" @click="deleteAdminDetails(adminData._id)" class="btn btn-icon btn-neutral btn-icon-mini"><i class="zmdi zmdi-delete"></i></button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </template>
+                                        
+                                    
+                                </table>
+                            </template>
+                            <template v-else>
+                                <p class="text-center mt-4">No data is available about project.</p>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<script src="<%= host %>/javascript/data_manipulation.js"></script>
+<script>
+    new Vue({
+        el: '#property_home_section',
+        data:{
+            allAdminData: [],
+            errorResponse: null,
+            successResponse: null,
+            isDisable: false
+
+        },
+        mounted(){
+            this.getAdminData()
+        },
+        methods: {
+            getAdminData(){
+                let requestLink = '/api/admin/all'
+                let token = localStorage.getItem('token')
+                getSecureData(requestLink, token).then((result) => {
+                    if(result.auth === true){
+                        this.allAdminData = result.response
+                    }
+                })
+            },
+            clear_notifications(){
+                this.errorResponse = null
+                this.successResponse = null
+            },
+            deleteAdminDetails(adminID){
+                this.clear_notifications()
+                this.isDisable = true
+                let requestLink = '/api/admin/'
+                let token = localStorage.getItem('token')
+                deleteData(requestLink, adminID, token).then((result) => {
+                    if(result.auth===false)
+                    {
+                        this.errorResponse = result.response 
+                    }else{
+                        this.getAdminData()
+                        this.successResponse = result.response
+                    }
+                    this.isDisable = false
+                })
+            }
+        }
+    })
+</script>
+
+
+<% include ../../partials/footer %>

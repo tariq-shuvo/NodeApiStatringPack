@@ -23,6 +23,7 @@ router.put('/', [auth,
         check('property_type', 'Properrty type is required').not().isEmpty(),
         check('name', 'Properrty name is required').not().isEmpty(),
         check('details', 'Property details is required').not().isEmpty(),
+        check('summery', 'Property summery is required').not().isEmpty(),
         check('price', 'Price is required').not().isEmpty(),
         check('price_unit', 'Price unit is required').not().isEmpty(),
         check('total_area', 'Total area is required').not().isEmpty(),
@@ -77,10 +78,16 @@ router.put('/', [auth,
 
        propertyDivisionInfo.update = Date.now()
 
+       if(req.body.garage_availability){
+            propertyDivisionInfo.garage.availability = req.body.garage_availability
+            propertyDivisionInfo.garage.price = req.body.garage_price
+        }
+
+
         await propertyDivisionInfo.save()
         res.status(200).json({
             type: 'success',
-            msg: 'Property division information updated successfully',
+            msg: 'Property partition information updated successfully',
             data: propertyDivisionInfo
         });
     } catch (err) {

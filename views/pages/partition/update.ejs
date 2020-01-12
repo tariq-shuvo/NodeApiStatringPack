@@ -25,7 +25,7 @@
                             </div>
                         </div> 
                         
-                        <form @submit.prevent="addPropertyPartition" v-if="formDisplay">
+                        <form @submit.prevent="updatePropertyPartition" v-if="formDisplay">
                             <div class="row mb-3">
                                 <div class="col-sm-6">
                                     <h6 class="mt-2 mb-2">Project</h6>
@@ -249,7 +249,28 @@
                 getData(requestLink).then((result) => {
                     if(result.auth === true){
                         // this.allProject = result.response.data
-                        console.log(result.response.data)
+                        this.project = result.response.data.project._id
+                        this.getPropertyOfProject(this.project)
+                        this.getProjectTypes(this.project)
+                        this.property = result.response.data.property._id
+                        this.projectSelectedType = result.response.data.projectType
+                        this.propertySelectedType = result.response.data.propertyType
+                        this.propertyPartitionSelectedType = result.response.data.ads_type._id
+                        this.isVisibleInstallmentSection = result.response.data.ads_type.name
+                        this.name = result.response.data.name
+                        this.summery = result.response.data.summery
+                        this.details = result.response.data.details
+                        this.totalArea = result.response.data.totalArea
+                        this.price = result.response.data.price
+                        this.garage = result.response.data.garage.availability
+                        this.garageRent = result.response.data.garage.price
+                        this.totalInstallments = result.response.data.payment.installment.number
+                        this.perInstallmentCost = result.response.data.payment.installment.amount 
+                        this.perInstallmentDueDay = result.response.data.payment.dueDateDuration
+                        this.perInstallmentExtensionDay = result.response.data.payment.dueDateExtension
+                        this.uploadedImages = result.response.data.images
+                        // console.log(result.response.data)
+                        // console.log(this.garage)
                     }
                 }) 
             },
@@ -285,6 +306,7 @@
                     if(result.auth === true){
                         let propertyInfo = result.response.data.filter(property => property.project === projectID)
                         this.allProperty = propertyInfo
+                        this.getPropertyType(this.property)
                     }
                 })
             },
@@ -317,12 +339,13 @@
                 this.perInstallmentExtensionDay = null
                 
             },
-            addPropertyPartition(){
+            updatePropertyPartition(){
                 this.clearNotification();
                 this.isDisable = true
                 
 
                 let propertyInfo = {
+                    property_divide_id: this.propertyID,
                     project: this.project,
                     property: this.property,
                     project_type: this.projectSelectedType,
@@ -333,8 +356,8 @@
                     ads_type: this.propertyPartitionSelectedType,
                     price_unit: this.price_unit,
                     price: this.price,
-                    "garage.availability": this.garage,
-                    "garage.price": this.garageRent,
+                    garage_availability: this.garage,
+                    garage_price: this.garageRent,
                     price_unit: this.price_unit,
                     total_area: this.totalArea,
                     area_unit: this.area_unit,
@@ -347,7 +370,7 @@
                 let requestLink = '/api/property/division'
                 let token = localStorage.getItem('token')
 
-                addNewData(requestLink, propertyInfo, token).then((result) => {
+                updateDataInfo(requestLink, propertyInfo, token).then((result) => {
                     if(result.auth===false)
                     {
                         this.errorResponse = result.response 
@@ -410,6 +433,7 @@
                 this.propertyID = null
                 this.errorResponse = null
                 this.successResponse = null
+                location.href = '/dashboard/partition'
             }
         }
     })

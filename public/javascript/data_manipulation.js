@@ -21,6 +21,30 @@ const getData = (requestLink) => {
     })
 }
 
+const getSecureData = (requestLink, token) => {
+    return new Promise((resolve)=>{
+        axios({
+            method: 'get',
+            url: requestLink,
+            headers: {
+                'Content-Type': 'application/json',
+                'x-auth-token': token
+            },
+            json: true
+        }).then((response) => {
+            resolve({
+                auth: true,
+                response:  response.data
+            })
+        }).catch((error) => {
+            resolve({
+                auth: false,
+                response:  error.response.data.errors
+            })
+        });
+    })
+}
+
 const deleteData = (requestLink, propertyID, token) => {
     return new Promise((resolve)=>{
         axios({

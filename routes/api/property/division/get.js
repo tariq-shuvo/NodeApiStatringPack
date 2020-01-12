@@ -27,7 +27,7 @@ router.get('/', async (req, res) => {
 router.get('/single/:partitionID', async (req, res) => {
     
     try {
-        let propertyDivisions = await PropertyDivision.findById(req.params.partitionID).populate('project', ['name']).populate('property', ['name']).populate('ads_type', ['name'])
+        let propertyDivisions = await PropertyDivision.findById(req.params.partitionID).populate('project', ['name']).populate('property', ['name']).populate('ads_type', ['name']).populate('propertyType', ['name'])
     
         res.status(200).json({
             data: propertyDivisions

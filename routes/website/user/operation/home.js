@@ -23,19 +23,19 @@ router.get('/list', function(req, res, next) {
 
   const breadcumb = {
     main: {
-      text: 'user',
-      link: config.get('hostname') + '/dashboard/user'
+      text: 'admin',
+      link: config.get('hostname') + '/dashboard/admin'
     },
     sub: [
     ]
   }
 
   const data = {
-    siteTitle: "Amanahomes - Manage User",
-    pageTitle: "Manage User",
+    siteTitle: "Amanahomes - Manage Admin",
+    pageTitle: "Manage Admin",
   }
 
-  res.render('pages/user/home', {
+  res.render('pages/admin/home', {
     scripts: scripts,
     styles: styles,
     breadcumb: breadcumb,

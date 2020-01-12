@@ -1,37 +1,28 @@
-const express = require('express')
-const router = express.Router()
-const {check, validationResult} = require('express-validator')
-// Load Admin Model
-const Admin = require('../../../models/admin/Admin')
-// Load gravater
-const gravater = require('gravatar')
-// Load bcrypt
-const bcrypt = require('bcryptjs')
-// Load Config
-const config = require('config')
-// Load uuid 
-const uuidv1 = require('uuid')
+const express = require('express');
+const router = express.Router();
+
+const {
+    check,
+    validationResult
+} = require('express-validator');
 
 const auth = require('../../../middleware/admin/auth');
+const Admin = require('../../../models/admin/Admin');
 
-const { getAdminRoleChecking } = require('../../../lib/helpers');
-
-// @route POST api/admin
-// @description Admin Registration
-// @access Public
-router.post(
-  '/',[auth,
-  [
-    check('name', 'Name should not be empty.')
-      .not()
-      .isEmpty(),
-    check('email', 'Email should be in email format.').isEmail(),
-    check('roles', 'Role should not be empty.').not().isEmpty(),
-    check('password', 'Password should be 6 or more characters.').isLength({
-      min: 6
-    })
-  ]],
-  async (req, res) => {
+const { getAdminRoleChecking } = require('../../../../lib/helpers');
+// @route PUT api/role
+// @description Update Role
+// @access Private
+router.put('/', [auth,
+    [
+        check('admin_id', 'Admin id is required').not().isEmpty(),
+        check('name', 'Name should not be empty.')
+          .not()
+          .isEmpty(),
+        check('email', 'Email should be in email format.').isEmail(),
+        check('roles', 'Role should not be empty.').not().isEmpty()
+    ]
+], async (req, res) => {
     const error = validationResult(req)
 
     if (!error.isEmpty()) {
@@ -117,12 +108,10 @@ router.post(
       return res.status(200).json({
           msg: 'Admin registered successfully'
       })
-
     } catch (err) {
-      console.error(err.message)
-      res.status(500).send('Server error')
+        console.error(err);
+        res.status(500).send('Server error');
     }
-  }
-)
+});
 
 module.exports = router

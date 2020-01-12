@@ -49,7 +49,7 @@ router.post('/', [auth,
         const { name } = req.body
 
         const addRoleInfo = new Role({
-            name,
+            name: name.toLowerCase(),
             icon
         })
 

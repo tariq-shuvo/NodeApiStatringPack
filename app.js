@@ -51,7 +51,7 @@ app.use('/', indexRouter);
 // Api Routes 
 app.use('/api/location', [locationRouter.getLocation]);
 app.use('/api/user', [usersRouter.user, usersRouter.auth, usersRouter.verify, usersRouter.forgot, usersRouter.reset, usersRouter.contact, usersRouter.updatePhoto]);
-app.use('/api/admin', [adminRouter.admin, adminRouter.auth, adminRouter.verify, adminRouter.forgot, adminRouter.reset]);
+app.use('/api/admin', [adminRouter.admin, adminRouter.auth, adminRouter.verify, adminRouter.forgot, adminRouter.reset, adminRouter.getAdminData, adminRouter.removeAdminData]);
 app.use('/api/role', [roleRouter.addRole, roleRouter.getRole, roleRouter.updateRole, roleRouter.removeRole]);
 app.use('/api/property', [propertyRouter.addProperty, propertyRouter.getProperty, propertyRouter.updateProperty, propertyRouter.removeProperty]);
 app.use('/api/property/division', [propertyDivisionRouter.addPropertyDivision, propertyDivisionRouter.getPropertyDivision, propertyDivisionRouter.updatePropertyDivision, propertyDivisionRouter.removePropertyDivision]);
@@ -71,7 +71,7 @@ app.use('/dashboard/progress', [progressAdminRouter.addProgressRoute, progressAd
 app.use('/dashboard/partition', [partitionAdminRouter.addPartitionRoute, partitionAdminRouter.partitionListRoute, partitionAdminRouter.partitionTypeRoute, partitionAdminRouter.updatePartitionRoute])
 app.use('/dashboard/sell', [propertySellAdminRouter.addPropertySellRoute, propertySellAdminRouter.propertySellListRoute])
 app.use('/dashboard/payment', [propertyPaymentAdminRouter.addPropertyPaymentRoute, propertyPaymentAdminRouter.propertyPaymentListRoute])
-app.use('/dashboard/user', [userAdminRouter.addPropertyPaymentRoute, userAdminRouter.propertyPaymentListRoute])
+app.use('/dashboard/admin', [userAdminRouter.addAdminRoute, userAdminRouter.adminListRoute, userAdminRouter.roleAdminRoute, userAdminRouter.updateAdminRoute])
 
 
 app.use(function(req, res, next){
