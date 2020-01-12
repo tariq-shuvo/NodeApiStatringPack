@@ -1,6 +1,7 @@
 const admin = require('./admin')
 const getAdminData = require('./get')
 const removeAdminData = require('./remove')
+const updateAdminData = require('./update')
 const auth = require('./auth')
 const verify = require('./common/verify')
 const forgot = require('./common/forgot')
@@ -10,6 +11,7 @@ module.exports={
     admin,
     getAdminData,
     removeAdminData,
+    updateAdminData,
     auth,
     verify,
     forgot,

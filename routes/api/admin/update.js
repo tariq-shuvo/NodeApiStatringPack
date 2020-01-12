@@ -6,10 +6,17 @@ const {
     validationResult
 } = require('express-validator');
 
+// Load gravater
+const gravater = require('gravatar')
+// Load bcrypt
+const bcrypt = require('bcryptjs')
+// Load Config
+const config = require('config')
+
 const auth = require('../../../middleware/admin/auth');
 const Admin = require('../../../models/admin/Admin');
 
-const { getAdminRoleChecking } = require('../../../../lib/helpers');
+const { getAdminRoleChecking } = require('../../../lib/helpers');
 // @route PUT api/role
 // @description Update Role
 // @access Private
@@ -20,7 +27,8 @@ router.put('/', [auth,
           .not()
           .isEmpty(),
         check('email', 'Email should be in email format.').isEmail(),
-        check('roles', 'Role should not be empty.').not().isEmpty()
+        check('active', 'Please mention account active or not.').not().isEmpty(),
+        check('roles', 'Role should not be empty.').not().isEmpty() 
     ]
 ], async (req, res) => {
     const error = validationResult(req)
@@ -43,6 +51,16 @@ router.put('/', [auth,
         })
     }
 
+    if (req.body.password !== req.body.confirm_password) {
+        return res.status(400).send({
+            errors: [
+                {
+                    msg: 'Password and confirm password not matched'
+                }
+            ]
+        })
+    }
+
     let roles = req.body.roles.split(',').map(role => role.trim())
 
     const {name, email, password} = req.body
@@ -57,21 +75,22 @@ router.put('/', [auth,
       activeAccount = true
     }
 
-    const verify = uuidv1()
     try {
       // See if admin exsist
       let admin = await Admin.findOne({
         email
       })
 
-      if (admin) {
-        return res.status(400).send({
-          errors: [
-            {
-              msg: 'Admin already exists'
-            }
-          ]
-        })
+      if (admin.length > 0) {
+        if(admin._id !== req.body.admin_id){
+            return res.status(400).send({
+                errors: [
+                  {
+                    msg: 'Admin already exists'
+                  }
+                ]
+            })
+        }  
       }
 
       // Get admin gravater
@@ -81,32 +100,34 @@ router.put('/', [auth,
         d: 'mm'
       })
 
-      admin = new Admin({
-        name,
-        email,
-        avatar,
-        password,
-        superAdmin,
-        roles,
-        "verify.code": verify,
-        active: activeAccount
-      })
+      admin = await Admin.findById(req.body.admin_id)
 
-      // Encrypt password
-      const salt = await bcrypt.genSalt(10)
+      admin.name = name
+      admin.email = email
+      admin.avatar = avatar
+      admin.superAdmin = superAdmin
+      admin.roles = roles
+      admin.active = activeAccount
 
-      admin.password = await bcrypt.hash(password, salt)
+      if(req.body.password)
+      {
+        // Encrypt password
+        const salt = await bcrypt.genSalt(10)
+        admin.password = await bcrypt.hash(password, salt)
+
+      }
+      
 
       await admin.save()
 
       if(superAdmin){
         return res.status(200).json({
-            msg: 'Super admin registered successfully'
+            msg: 'Super admin information updated successfully'
         })  
       }
 
       return res.status(200).json({
-          msg: 'Admin registered successfully'
+          msg: 'Admin information successfully'
       })
     } catch (err) {
         console.error(err);

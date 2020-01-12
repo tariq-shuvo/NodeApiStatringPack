@@ -23,7 +23,7 @@
                             </div>
                         </div> 
                         
-                        <form @submit.prevent="addProperty">
+                        <form @submit.prevent="updateAdminData">
                             <div class="row mb-3 clearfix">
                                 <div class="col-sm-12">
                                     <h6 class="mt-2 mb-2">Admin Details</h6>
@@ -178,7 +178,7 @@
                 this.admin_type = true
                 this.account_active = true
             },
-            addProperty(){
+            updateAdminData(){
                 this.clearNotification();
                 this.isDisable = true
 
@@ -187,13 +187,14 @@
                 this.selectedAccessRoles.forEach((value, index) => {
                     if(this.selectedAccessRoles.length == index+1)
                     {
-                        roles += value.id
+                        roles += value._id
                     }else{
-                        roles += value.id + ','
+                        roles += value._id + ','
                     }
                 })
 
                 let adminInfo = {
+                    admin_id: this.adminID,
                     name: this.name,
                     email: this.email.toLowerCase(),
                     password: this.password,
@@ -203,19 +204,22 @@
                     active: this.account_active
                 }
 
-
                 let requestLink = '/api/admin'
                 let token = localStorage.getItem('token')
 
-                addNewData(requestLink, adminInfo, token).then((result) => {
+                updateDataInfo(requestLink, adminInfo, token).then((result) => {
                     if(result.auth===false)
                     {
                         this.errorResponse = result.response 
                     }else{
                         this.successResponse = result.response
-                        this.clearInputFields()
+                        this.formDisplay = false
                     }
                     this.isDisable = false
+
+                    setTimeout(()=>{
+                        location.href = '<%= host %>/dashboard/admin/list'
+                    },3000)
                 })
             }
         }

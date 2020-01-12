@@ -51,7 +51,7 @@ app.use('/', indexRouter);
 // Api Routes 
 app.use('/api/location', [locationRouter.getLocation]);
 app.use('/api/user', [usersRouter.user, usersRouter.auth, usersRouter.verify, usersRouter.forgot, usersRouter.reset, usersRouter.contact, usersRouter.updatePhoto]);
-app.use('/api/admin', [adminRouter.admin, adminRouter.auth, adminRouter.verify, adminRouter.forgot, adminRouter.reset, adminRouter.getAdminData, adminRouter.removeAdminData]);
+app.use('/api/admin', [adminRouter.admin, adminRouter.auth, adminRouter.verify, adminRouter.forgot, adminRouter.reset, adminRouter.getAdminData, adminRouter.removeAdminData, adminRouter.updateAdminData]);
 app.use('/api/role', [roleRouter.addRole, roleRouter.getRole, roleRouter.updateRole, roleRouter.removeRole]);
 app.use('/api/property', [propertyRouter.addProperty, propertyRouter.getProperty, propertyRouter.updateProperty, propertyRouter.removeProperty]);
 app.use('/api/property/division', [propertyDivisionRouter.addPropertyDivision, propertyDivisionRouter.getPropertyDivision, propertyDivisionRouter.updatePropertyDivision, propertyDivisionRouter.removePropertyDivision]);
