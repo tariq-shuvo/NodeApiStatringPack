@@ -17,7 +17,9 @@ const { getAdminRoleChecking } = require('../../../../lib/helpers');
 router.post('/', [auth, 
     [
         check('user', 'User id is required').not().isEmpty(),
-        check('property', 'Property id is required').not().isEmpty(),
+        check('project', 'Project is required').not().isEmpty(),
+        check('property', 'Property is required').not().isEmpty(),
+        check('partition', 'Partition is required').not().isEmpty(),
         check('total_price', 'Property total price is required').not().isEmpty(),
         check('installment_amount', 'Property installment amount required').not().isEmpty(),
         check('installment_number', 'Property number of installment required').not().isEmpty(),
@@ -49,11 +51,13 @@ router.post('/', [auth,
         }
 
 
-        const {user, property, total_price, installment_amount, installment_number, next_installment_date, installment_due_day, installment_due_extension, delivery} = req.body
+        const {user, project, property, partition, total_price, installment_amount, installment_number, next_installment_date, installment_due_day, installment_due_extension, delivery} = req.body
 
         const userPropertyInfo = new UserProperty({
-            user, 
-            property, 
+            user,
+            project, 
+            property,
+            partition, 
             "payment.totalCost": total_price, 
             "payment.installment.amount": installment_amount, 
             "payment.installment.number": installment_number, 

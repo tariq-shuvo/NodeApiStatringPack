@@ -7,10 +7,10 @@ const { getAdminRoleChecking } = require('../../../../lib/helpers');
 const auth = require('../../../../middleware/admin/auth');
 const UserProperty = require('../../../../models/user/UserProperty');
 
-// @route DELETE api/property/sell/:userID/:propertyID
+// @route DELETE api/property/sell/:userID/:partitionID
 // @description Remove specific sold property
 // @access Private
-router.delete('/:userID/:propertyID', auth, async (req, res) => {
+router.delete('/:userID/:partitionID', auth, async (req, res) => {
     try {
         let PropertySoldInfo = await UserProperty.findOne({
             $and:[
@@ -18,7 +18,7 @@ router.delete('/:userID/:propertyID', auth, async (req, res) => {
                     user: req.params.userID
                 },
                 {
-                    property: req.params.propertyID
+                    property: req.params.partitionID
                 },
             ]
         })

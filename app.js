@@ -19,6 +19,10 @@ var locationRouter = require('./routes/api/location');
 // var propertyProgressRouter = require('./routes/api/property/progress');
 // var propertySellRouter = require('./routes/api/property/sell');
 var projectTypeRouter = require('./routes/api/property/projectType');
+var expendetureTypeRouter = require('./routes/api/expendeture/type');
+var expendetureRouter = require('./routes/api/expendeture');
+var incomeTypeRouter = require('./routes/api/income/type');
+var incomeRouter = require('./routes/api/income');
 
 // Load Website Routes 
 var authSiteRouter = require('./routes/website/auth');
@@ -30,6 +34,7 @@ var partitionAdminRouter = require('./routes/website/partition');
 var propertySellAdminRouter = require('./routes/website/sell');
 var propertyPaymentAdminRouter = require('./routes/website/payment');
 var userAdminRouter = require('./routes/website/user');
+var assessmentAdminRouter = require('./routes/website/assessment');
 
 var app = express();
 
@@ -61,6 +66,10 @@ app.use('/api/partition/type', [partitionType.addPartitionType, partitionType.re
 // app.use('/api/property/sell', [propertySellRouter.addSellProperty, propertySellRouter.removeSellProperty, propertySellRouter.updateSellProperty, propertySellRouter.getSellProperty]);
 app.use('/api/project', [projectRouter.addProject, projectRouter.updateProject, projectRouter.getProject, projectRouter.removeProject]);
 app.use('/api/project/type', [projectTypeRouter.addProjectType, projectTypeRouter.updateProjectType, projectTypeRouter.getProjectType, projectTypeRouter.removeProjectType]);
+app.use('/api/assessment/expend/type', [expendetureTypeRouter.addExpendType, expendetureTypeRouter.removeExpendType, expendetureTypeRouter.updateExpendType, expendetureTypeRouter.getExpendType]);
+app.use('/api/assessment/expend', [expendetureRouter.addExpend, expendetureRouter.removeExpend, expendetureRouter.updateExpend, expendetureRouter.getExpend]);
+app.use('/api/assessment/income/type', [incomeTypeRouter.addIncomeType, incomeTypeRouter.removeIncomeType, incomeTypeRouter.updateIncomeType, incomeTypeRouter.getIncomeType]);
+app.use('/api/assessment/income', [incomeRouter.addIncome, incomeRouter.removeIncome, incomeRouter.updateIncome, incomeRouter.getIncome]);
 
 // Website Routes
 app.use('/', [authSiteRouter.loginAuth, authSiteRouter.registerAuth, authSiteRouter.forgotAuth, authSiteRouter.resetAuth])
@@ -72,6 +81,7 @@ app.use('/dashboard/partition', [partitionAdminRouter.addPartitionRoute, partiti
 app.use('/dashboard/sell', [propertySellAdminRouter.addPropertySellRoute, propertySellAdminRouter.propertySellListRoute])
 app.use('/dashboard/payment', [propertyPaymentAdminRouter.addPropertyPaymentRoute, propertyPaymentAdminRouter.propertyPaymentListRoute])
 app.use('/dashboard/admin', [userAdminRouter.addAdminRoute, userAdminRouter.adminListRoute, userAdminRouter.roleAdminRoute, userAdminRouter.updateAdminRoute])
+app.use('/dashboard/assessment', [assessmentAdminRouter.incomeTypeRoute, assessmentAdminRouter.expendTypeRoute, assessmentAdminRouter.expendRoute, assessmentAdminRouter.incomeRoute])
 
 
 app.use(function(req, res, next){

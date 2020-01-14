@@ -6,10 +6,10 @@ const UserProperty = require('../../../../models/user/UserProperty');
 
 const { getAdminRoleChecking } = require('../../../../lib/helpers');
 
-// @route GET api/property/sell/:userID/:propertyID
+// @route GET api/property/sell/:userID/:partitionID
 // @description Get Sold Property Infornmation
 // @access Private - admin access
-router.get('/:userID/:propertyID', auth, async (req, res) => {
+router.get('/:userID/:partitionID', auth, async (req, res) => {
     try {
 
         const adminRoles = await getAdminRoleChecking(req.admin.id, 'property')
@@ -30,7 +30,7 @@ router.get('/:userID/:propertyID', auth, async (req, res) => {
                     user: req.params.userID
                 },
                 {
-                    property: req.params.propertyID
+                    property: req.params.partitionID
                 },
             ]
         })
@@ -41,7 +41,7 @@ router.get('/:userID/:propertyID', auth, async (req, res) => {
     } catch (err) {
         if (err.kind === 'ObjectId') {
             return res.status(400).json({
-                msg: 'Property and user not found'
+                msg: 'Property partition and user not found'
             });
         }
         console.error(err);
@@ -49,10 +49,10 @@ router.get('/:userID/:propertyID', auth, async (req, res) => {
     }
 });
 
-// @route GET api/property/sell/property/:userID
-// @description Get all property of single user
+// @route GET api/property/sell/partition/:userID
+// @description Get all property partition of single user
 // @access Private - admin access
-router.get('/user/property/:userID', auth, async (req, res) => {
+router.get('/user/partition/:userID', auth, async (req, res) => {
     
     try {
         const adminRoles = await getAdminRoleChecking(req.admin.id, 'property')

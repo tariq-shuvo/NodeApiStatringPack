@@ -13,13 +13,13 @@ const UserProperty = require('../../../../models/user/UserProperty');
 
 const { getAdminRoleChecking } = require('../../../../lib/helpers');
 
-// @route PUT api/property/sell
-// @description Update specific sold property
+// @route PUT api/partition/sell
+// @description Update specific sold partition
 // @access Private - admin access
 router.put('/', [auth,
     [
         check('user', 'User id is required').not().isEmpty(),
-        check('property', 'Property id is required').not().isEmpty(),
+        check('partition', 'partition is required').not().isEmpty(),
         check('total_price', 'Property total price is required').not().isEmpty(),
         check('paid_price', 'Paid price is required').not().isEmpty(),
         check('installment_amount', 'Property installment amount required').not().isEmpty(),
@@ -51,7 +51,7 @@ router.put('/', [auth,
     }
 
     try {
-        const {user, property, total_price, paid_price, installment_amount, installment_number, next_installment_date, installment_due_day, installment_due_extension, delivery} = req.body
+        const {user, partition, total_price, paid_price, installment_amount, installment_number, next_installment_date, installment_due_day, installment_due_extension, delivery} = req.body
 
         let userPropertyInfo = await UserProperty.findOne({
             $and:[
@@ -59,7 +59,7 @@ router.put('/', [auth,
                     user: user
                 },
                 {
-                    property: property
+                    partition: partition
                 },
             ]
         })

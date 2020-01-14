@@ -14,7 +14,12 @@
             <div class="col-lg-12">
                 <div class="card">                   
                     <div class="body">
-                        <div class="table-responsive">
+                        <div class="row" v-if="isLoading">
+                            <div class="spinner-border text-primary mt-4" style="margin: 0 auto" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="table-responsive" v-else>
                             <table class="table td_2 table-striped table-hover js-basic-example dataTable">
                                 <thead>
                                     <tr>
@@ -165,7 +170,8 @@
             editTypeValue:'',
             errorResponse: null,
             successResponse: null,
-            isDisable: false
+            isDisable: false,
+            isLoading: true
         },
         mounted(){
             this.getAllTypeData()
@@ -176,6 +182,7 @@
                 getType(requestLink).then((result) => {
                     if(result.auth === true){
                         this.projectTypes = result.response
+                        this.isLoading = false
                     }
                 })
             },
@@ -210,6 +217,7 @@
                 this.clear_notifications()
                 let requestLink = '/api/property/type'
                 this.isDisable = true
+                this.isLoading = true
                 let token = localStorage.getItem('token')
                 addNewType(requestLink, {
                     name: this.addTypeValue
@@ -223,12 +231,14 @@
                         this.projectTypes.data.push(result.response.data)
                     }
                     this.isDisable = false
+                    this.isLoading = false
                 })
             },
             updateProjectType(){
                 this.clear_notifications()
                 let requestLink = '/api/property/type'
                 this.isDisable = true
+                this.isLoading = true
                 let token = localStorage.getItem('token')
                 updateTypeInfo(requestLink, {
                     name: this.editTypeValue,
@@ -248,6 +258,7 @@
             deleteProjectType(typeID){
                 this.remove_type_section()
                 this.isDisable = true
+                this.isLoading = true
                 let requestLink = '/api/property/type/'
                 let token = localStorage.getItem('token')
                 deleteType(requestLink, typeID, token).then((result) => {

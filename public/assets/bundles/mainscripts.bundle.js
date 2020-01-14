@@ -201,10 +201,3 @@ $.AdminOreo.browser = {
         $(this).parent(".input-group").removeClass("input-group-focus")
     })
 });
-var Tawk_API = Tawk_API || {},
-    Tawk_LoadStart = new Date;
-! function() {
-    var e = document.createElement("script"),
-        a = document.getElementsByTagName("script")[0];
-    e.async = !0, e.src = "https://embed.tawk.to/59f5afbbbb0c3f433d4c5c4c/default", e.charset = "UTF-8", e.setAttribute("crossorigin", "*"), a.parentNode.insertBefore(e, a)
-}();

@@ -19,7 +19,12 @@
                                 <% include ../notification/message %>
                             </div>
                         </div>
-                        <div class="table-responsive">
+                        <div class="row" v-if="isLoading">
+                            <div class="spinner-border text-primary mt-4" style="margin: 0 auto" role="status">
+                                <span class="sr-only">Loading...</span>
+                            </div>
+                        </div>
+                        <div class="table-responsive" v-else>
                             <template v-if="propertyPartitionData.data && propertyPartitionData.data.length > 0">
                                 <table class="table td_2 table-striped table-hover">
                                     <thead>
@@ -73,7 +78,8 @@
             propertyPartitionData: [],
             errorResponse: null,
             successResponse: null,
-            isDisable: false
+            isDisable: false,
+            isLoading: true
 
         },
         mounted(){
@@ -85,6 +91,7 @@
                 getData(requestLink).then((result) => {
                     if(result.auth === true){
                         this.propertyPartitionData = result.response
+                        this.isLoading = false
                     }
                 })
             },
@@ -95,6 +102,7 @@
             deletePropertyPartition(propertyPartitionID){
                 this.clear_notifications()
                 this.isDisable = true
+                this.isLoading = true
                 let requestLink = '/api/property/division/'
                 let token = localStorage.getItem('token')
                 deleteData(requestLink, propertyPartitionID, token).then((result) => {

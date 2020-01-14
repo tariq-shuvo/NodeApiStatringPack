@@ -52,7 +52,7 @@
                                     <div class="form-group">
                                         <select class="form-control" @change="getAdminTypesSelect($event, admin_access)" v-model="admin_access">
                                             <option value="">-- Select Access --</option>
-                                            <option :value="{id: accessRole._id, name: accessRole.name}" v-for="(accessRole, index) in accessRoles" :key="index" class="text-capitalize">{{accessRole.name}}</option>
+                                            <option :value="{_id: accessRole._id, name: accessRole.name}" v-for="(accessRole, index) in accessRoles" :key="index" class="text-capitalize">{{accessRole.name}}</option>
                                         </select>
                                     </div>
                                     <span class="badge badge-primary text-capitalize mr-2" style="font-size: 12px; cursor: pointer;" v-for="(selectedRole, index) in selectedAccessRoles" :key="index">{{selectedRole.name}} <span @click="removeAdminTypesSelect(index)" aria-hidden="true">&times;</span></span>

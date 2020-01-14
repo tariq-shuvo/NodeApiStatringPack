@@ -6,9 +6,17 @@ const UserPropertySchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'user'
     },
+    project:{
+        type: Schema.Types.ObjectId,
+        ref: 'project'
+    },
     property:{
         type: Schema.Types.ObjectId,
         ref: 'property'
+    },
+    partition:{
+        type: Schema.Types.ObjectId,
+        ref: 'propertydivision'
     },
     payment:{
         totalCost: {
