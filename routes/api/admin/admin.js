@@ -15,6 +15,7 @@ const uuidv1 = require('uuid')
 const auth = require('../../../middleware/admin/auth');
 
 const { getAdminRoleChecking } = require('../../../lib/helpers');
+const sendEmail = require('../../../lib/email/sendEmailModule');
 
 // @route POST api/admin
 // @description Admin Registration
@@ -107,6 +108,32 @@ router.post(
       admin.password = await bcrypt.hash(password, salt)
 
       await admin.save()
+
+      const templateDetails = {
+          folder: "verify",
+          filename: "index.ejs",
+          data:{
+              code: verify,
+              host:  config.get('hostname'),
+              resetLink: '/api/admin/verify/',
+              companyname: 'Amana Homes',
+              supportEmail: 'support@amanahomes.com',
+              button:{
+                  text: 'Verify'
+              },
+              user:{
+                  name: admin.name
+              }
+          }
+      }
+
+      const emailOptions = {
+          from: 'no-reply@amanahomes.com',
+          to: admin.email,
+          subject: 'Verify your email'
+      }
+
+      sendEmail(templateDetails, null, null, emailOptions)
 
       if(superAdmin){
         return res.status(200).json({

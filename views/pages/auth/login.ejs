@@ -69,7 +69,7 @@
             methods:{
                 loginAuth(){
                     this.errorResponse = null
-                    loginAuth(this.email, this.password).then((result) => {
+                    loginAuth(this.email.toLowerCase(), this.password).then((result) => {
                         if(result.auth===true){
                             window.location = '/dashboard'
                         }else{

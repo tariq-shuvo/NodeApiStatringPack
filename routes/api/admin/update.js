@@ -81,18 +81,23 @@ router.put('/', [auth,
         email
       })
 
-      if (admin.length > 0) {
-        if(admin._id !== req.body.admin_id){
-            return res.status(400).send({
-                errors: [
-                  {
-                    msg: 'Admin already exists'
-                  }
-                ]
-            })
-        }  
-      }
+      
 
+      if(admin!=null)
+      {
+        if (admin.length > 0) {
+          if(admin._id !== req.body.admin_id){
+              return res.status(400).send({
+                  errors: [
+                    {
+                      msg: 'Admin already exists'
+                    }
+                  ]
+              })
+          }  
+        }
+      }
+      
       // Get admin gravater
       const avatar = gravater.url(email, {
         s: '200',

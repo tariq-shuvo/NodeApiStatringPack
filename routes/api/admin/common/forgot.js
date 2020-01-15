@@ -11,6 +11,8 @@ const {check, validationResult} = require('express-validator')
 // Load uuidv1
 const uuidv1 = require('uuid')
 
+const sendEmail = require('../../../../lib/email/sendEmailModule')
+
 
 // @route Post api/admin/password/forgot
 // @description Reset new paasword
@@ -26,6 +28,7 @@ router.post('/forgot', [
         })
     }
 
+    const forgotCode = uuidv1()
     const { email } = req.body
 
     try {
@@ -41,8 +44,34 @@ router.post('/forgot', [
             });
         }
 
+        const templateDetails = {
+            folder: "reset",
+            filename: "index.ejs",
+            data:{
+                code: forgotCode,
+                host:  config.get('hostname'),
+                resetLink: '/reset/',
+                companyname: 'Amana Homes',
+                supportEmail: 'support@amanahomes.com',
+                button:{
+                    text: 'Click Here'
+                },
+                user:{
+                    name: admin.name
+                }
+            }
+        }
+
+        const emailOptions = {
+            from: 'no-reply@amanahomes.com',
+            to: admin.email,
+            subject: 'Password reset link'
+        }
+
+        sendEmail(templateDetails, null, null, emailOptions)
+
         admin.forgot = {
-            code: uuidv1(),
+            code: forgotCode,
             status: false,
             date: Date.now()
         }

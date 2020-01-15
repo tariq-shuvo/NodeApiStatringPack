@@ -30,7 +30,7 @@
                             <div class="row mb-3">
                                 <div class="col-sm-12">
                                     <div class="checkbox inlineblock m-r-20" v-for="(type, index) in projectTypes">
-                                        <input :id="'checkbox_'+ type._id" v-model="selectedType" :value="type._id" type="checkbox">
+                                        <input :id="'checkbox_'+ type._id" v-model="selectedType" :value="{_id:type._id, name:type.name}" type="checkbox">
                                         <label :for="'checkbox_'+ type._id" class="text-capitalize">{{type.name}}</label>
                                     </div>
                                 </div>
@@ -167,9 +167,9 @@
                 this.selectedType.forEach((value, index) => {
                     if(this.selectedType.length === index+1)
                     {
-                        type += value
+                        type += value._id
                     }else{
-                        type += value+',' 
+                        type += value._id+',' 
                     }
                     
                 })

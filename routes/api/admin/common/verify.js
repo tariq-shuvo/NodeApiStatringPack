@@ -23,7 +23,7 @@ router.get('/verify/:id', async (req, res)=>{
         await admin.save()
         
     
-        
+        // req.flash()
         res.status(200).json({
             msg: 'Email verification is completed'
         });   
