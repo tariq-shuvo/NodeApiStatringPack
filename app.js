@@ -1,7 +1,8 @@
 var createError = require('http-errors');
 var express = require('express');
 var path = require('path');
-var flash = require('connect-flash');
+var expressSession = require('express-session');
+var flash = require('express-flash');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
 var config = require('config')
@@ -53,7 +54,17 @@ app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use(flash());
+// Load Session and Flash
+app.use(expressSession({
+  secret: config.get('sessionSecrect'),
+  cookie: {
+    maxAge: 4000000
+  },
+  resave: false,
+  saveUninitialized: false
+}))
+
+app.use(flash())
 
 app.use('/', indexRouter);
 // Api Routes 

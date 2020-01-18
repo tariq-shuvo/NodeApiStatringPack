@@ -32,7 +32,7 @@ const AdminSchema = new Schema({
     verify:{
         code: {
          type: String,
-         require: true   
+         default: null   
         },
         status: {
             type: Boolean,
